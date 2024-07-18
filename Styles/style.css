@@ -1,0 +1,192 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #333;
+    
+
+}
+
+header {
+    /* background-color: #333; */
+    background-color: #4158D0;
+    background-image: linear-gradient(43deg, #4158D0 0%, #ffffff 100%);
+    color: #fff;
+    padding: 1em 0;
+    text-align: center;
+}
+
+header nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+header nav ul li {
+    display: inline;
+    margin: 0 1em;
+}
+
+header nav ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+section {
+    padding: 2em 1em;
+}
+
+section:not(#home) {
+    max-width: 80%;
+    margin: auto;
+}
+
+#home {
+    background-color: #4158D0;
+    background-image: linear-gradient(43deg, #4158D0 0%, #ffffff 100%);
+    /* background: url('path/to/your/background-image.jpg') no-repeat center center/cover; */
+    color: #fff;
+    text-align: center;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    max-height: 400px;
+}
+
+#home .content {
+    max-width: 600px;
+}
+
+.profile-photo {
+    position: absolute;
+    right: 10%;
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border: 3px solid #fff;
+}
+
+.typing, .typing-p {
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 0.15em solid orange;
+    animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+}
+
+
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1em;
+}
+
+.project {
+    background-color: #4158D0;
+    background-image: linear-gradient(43deg, #4158D0 0%, #ffffff 100%);
+    margin: 1em 0;
+    border: 1px solid #ccc;
+    padding: 1em;
+    border-radius: 8px;
+    background-color: #fff;
+}
+
+.project img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin-bottom: 1em;
+}
+
+#skills ul {
+    list-style: none;
+    padding: 0;
+}
+
+#skills ul li {
+    display: flex;
+    align-items: center;
+    margin: 0.5em 0;
+}
+
+#skills ul li img {
+    width: 24px;
+    height: 24px;
+    margin-right: 0.5em;
+}
+
+#contact form {
+    display: flex;
+    flex-direction: column;
+}
+
+#contact label {
+    margin-top: 0.5em;
+}
+
+#contact input, #contact textarea {
+    padding: 0.5em;
+    margin-top: 0.5em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#contact button {
+    margin-top: 1em;
+    padding: 0.5em;
+    border: none;
+    background-color: #333;
+    color: #fff;
+    cursor: pointer;
+}
+
+footer {
+    background-color: #4158D0;
+    background-image: linear-gradient(43deg, #4158D0 0%, #ffffff 100%);
+    color: #fff;
+    text-align: center;
+    padding: 1em 0;
+    position: absolute;
+    width: 100%;
+    /* bottom: 0; */
+}
+
+.social-links {
+    position: fixed;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.social-links a img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.social-links a:hover img {
+    filter: brightness(0.8);
+}
+
+
+
+#about {
+    text-align: center;
+    padding: 2em 1em;
+    margin-left: 20%;
+    margin-right: 20%;
+}
+
+
+.project >img{
+    height: 250px;
+    width: 100%;
+    border-radius: 3%;
+}
