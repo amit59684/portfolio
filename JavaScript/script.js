@@ -24,3 +24,13 @@ function typeWriter() {
 // }
 
 typeWriter();
+document.getElementById('resume-link').addEventListener('click', function(event) {
+    event.preventDefault();
+    const link = document.createElement('a');
+    link.href = this.href;
+    link.setAttribute('download', 'Amit_Adhikary_Resume.pdf');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.open(this.href, '_blank');
+});
