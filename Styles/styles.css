@@ -3,17 +3,21 @@ body {
     margin: 0;
     padding: 0;
     color: #333;
+    
+
 }
 
 header {
+    /* background-color: #333; */
     background-color: #4158D0;
     background: linear-gradient(to bottom right, #ADD8E6, #fefefe00);
+    /* color: #000000; */
     padding: 1em 0;
     text-align: center;
     position: fixed;
     width: 100%;
     top: 0;
-    z-index: 1000;
+    z-index: 1000
 }
 
 header nav ul {
@@ -42,26 +46,10 @@ section:not(#home) {
     margin: auto;
 }
 
-/* #home {
-    background-color: #4158D0;
-    background: linear-gradient(to bottom right, #ADD8E6, #ddf7f7);
-    color: #fff;
-    text-align: center;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    max-height: 400px;
-}
-
-#home .content {
-    max-width: 600px;
-} */
 #home {
     background-color: #4158D0;
     background: linear-gradient(to bottom right, #ADD8E6, #ddf7f7);
+    /* background: url('path/to/your/background-image.jpg') no-repeat center center/cover; */
     color: #fff;
     text-align: center;
     position: relative;
@@ -70,20 +58,17 @@ section:not(#home) {
     align-items: center;
     height: 100vh;
     max-height: 400px;
-    flex-direction: row; /* Added for desktop layout */
 }
 
 #home .content {
     max-width: 600px;
-    text-align: left; /* Added to align text to left */
-    margin-right: 2em; /* Added spacing between content and profile photo */
-}
-
-header nav ul li a[href*="resumeId"] {
-    download: true; /* Added to ensure resume download */
 }
 
 .profile-photo {
+    position: absolute;
+    right: 10%;
+    top: 50%;
+    transform: translateY(-50%);
     border-radius: 50%;
     width: 150px;
     height: 150px;
@@ -99,6 +84,7 @@ header nav ul li a[href*="resumeId"] {
     animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
 }
 
+
 .projects-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -107,13 +93,13 @@ header nav ul li a[href*="resumeId"] {
 }
 
 .project {
-    text-align: center;
     background-color: #4158D0;
     background: linear-gradient(43deg, #ADD8E6, #ddf7f7);
     margin: 1em 0;
     border: 1px solid #ccc;
     padding: 1em;
     border-radius: 8px;
+    background-color: #fff;
     align-items: center;
     justify-content: center;
 }
@@ -128,11 +114,12 @@ header nav ul li a[href*="resumeId"] {
 #skills {
     text-align: center;
     margin-top: 2em;
-    text-decoration: underline;
+    text-decoration:underline ;
 }
 
 #skills ul {
     list-style: none;
+    border: 1px solid red;
     padding: 0;
     display: flex;
     flex-wrap: wrap;
@@ -141,24 +128,21 @@ header nav ul li a[href*="resumeId"] {
 
 #skills ul li {
     display: flex;
+    text-decoration: none;
     align-items: center;
-    border: 1px solid rgba(0, 0, 0, 0);
+    border: 1px solid black;
     margin: 0.5em;
     flex: 1 1 calc(25% - 1em);
     max-width: calc(25% - 1em);
 }
-
 #skills ul li img {
-    width: 40px;
-    height: 40px;
+    width: 24px;
+    height: 24px;
     margin-right: 0.5em;
 }
-
 #contact form {
     display: flex;
     flex-direction: column;
-    width: 80%;
-    margin: auto;
 }
 
 #contact label {
@@ -210,7 +194,6 @@ footer {
 .social-links a:hover img {
     filter: brightness(0.8);
 }
-
 #about {
     text-align: center;
     padding: 2em 1em;
@@ -218,7 +201,8 @@ footer {
     margin-right: 20%;
 }
 
-.project > img {
+
+.project >img{
     height: 250px;
     width: 100%;
     border-radius: 3%;
@@ -233,55 +217,8 @@ footer {
     text-decoration: none;
     border-radius: 4px;
     transition: background-color 0.3s ease;
-    margin-top: 2%;
 }
 
 .github-button:hover {
     background-color: #555;
-}
-
-@media (max-width: 768px) {
-    header nav ul li {
-        display: block;
-        margin: 0.5em 0;
-    }
-
-    .projects-grid {
-        grid-template-columns: 1fr;
-    }
-
-    #skills ul li {
-        flex: 1 1 calc(50% - 1em);
-        max-width: calc(50% - 1em);
-    }
-
-    #about {
-        margin-left: 10%;
-        margin-right: 10%;
-    }
-}
-
-@media (max-width: 480px) {
-    #home {
-        flex-direction: column-reverse;
-    }
-
-    .profile-photo {
-        width: 150px;
-        height: 150px;
-    }
-
-    .typing, .typing-p {
-        font-size: 1.5em;
-    }
-
-    #skills ul li {
-        flex: 1 1 100%;
-        max-width: 100%;
-    }
-
-    #about {
-        margin-left: 5%;
-        margin-right: 5%;
-    }
 }
