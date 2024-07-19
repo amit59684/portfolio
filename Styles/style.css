@@ -15,15 +15,19 @@ header {
     top: 0;
     z-index: 1000;
 }
-
 header nav ul {
     list-style: none;
     padding: 0;
 }
 
 header nav ul li {
-    display: inline;
+    display: inline-block; /* Changed from inline to inline-block for proper scaling */
     margin: 0 1em;
+    transition: transform 0.3s ease; /* Add smooth transition */
+}
+
+header nav ul li:hover {
+    transform: scale(1.2); /* Scale up the entire li */
 }
 
 header nav ul li a {
@@ -32,6 +36,8 @@ header nav ul li a {
     font-weight: 600;
     font-size: 1em;
 }
+
+
 
 section {
     padding: 2em 1em;
@@ -42,23 +48,6 @@ section:not(#home) {
     margin: auto;
 }
 
-/* #home {
-    background-color: #4158D0;
-    background: linear-gradient(to bottom right, #ADD8E6, #ddf7f7);
-    color: #fff;
-    text-align: center;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    max-height: 400px;
-}
-
-#home .content {
-    max-width: 600px;
-} */
 #home {
     background-color: #4158D0;
     background: linear-gradient(to bottom right, #ADD8E6, #ddf7f7);
@@ -75,12 +64,12 @@ section:not(#home) {
 
 #home .content {
     max-width: 600px;
-    text-align: left; /* Added to align text to left */
-    margin-right: 2em; /* Added spacing between content and profile photo */
+    text-align: left; 
+    margin-right: 2em; 
 }
 
 header nav ul li a[href*="resumeId"] {
-    download: true; /* Added to ensure resume download */
+    download: true; 
 }
 
 .profile-photo {
@@ -101,9 +90,15 @@ header nav ul li a[href*="resumeId"] {
 
 .projects-grid {
     display: grid;
+    /* border: 1px solid red; */
     grid-template-columns: repeat(3, 1fr);
     gap: 1em;
-    text-align: center;
+    /* text-align: center; */
+    /* margin: auto;
+    justify-content: center;
+    align-items: center; */
+    
+
 }
 
 .project {
@@ -119,16 +114,18 @@ header nav ul li a[href*="resumeId"] {
 }
 
 .project img {
-    max-width: 100%;
-    height: auto;
+    max-width: 380px;
+    height: 240px;
     display: block;
     margin-bottom: 1em;
 }
-
+#skills >H2{
+    text-decoration: underline;
+}
 #skills {
     text-align: center;
     margin-top: 2em;
-    text-decoration: underline;
+    /* text-decoration: underline; */
 }
 
 #skills ul {
@@ -136,10 +133,13 @@ header nav ul li a[href*="resumeId"] {
     padding: 0;
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: space-around;
+    /* border: 1px solid black; */
+
 }
 
 #skills ul li {
+    
     display: flex;
     align-items: center;
     border: 1px solid rgba(0, 0, 0, 0);
@@ -176,7 +176,7 @@ header nav ul li a[href*="resumeId"] {
     margin-top: 1em;
     padding: 0.5em;
     border: none;
-    background-color: #333;
+    background-color: #2caeac;
     color: #fff;
     cursor: pointer;
 }
@@ -191,7 +191,7 @@ footer {
     width: 100%;
 }
 
-.social-links {
+/* .social-links {
     position: fixed;
     right: 10px;
     top: 50%;
@@ -209,7 +209,33 @@ footer {
 
 .social-links a:hover img {
     filter: brightness(0.8);
+} */
+.social-links {
+    position: fixed;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
+
+.social-links a {
+    transition: transform .5s ease; /* Add smooth transition */
+}
+
+.social-links a:hover {
+    transform: scale(1.4); /* Scale up the link */
+}
+
+.social-links a img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: block; /* Ensure the image is treated as a block for proper scaling */
+}
+
+
 
 #about {
     text-align: center;
@@ -228,7 +254,7 @@ footer {
     display: inline-block;
     margin-top: 1em;
     padding: 0.5em 1em;
-    background-color: #333;
+    background-color: #2caeac;
     color: #fff;
     text-decoration: none;
     border-radius: 4px;
@@ -237,7 +263,7 @@ footer {
 }
 
 .github-button:hover {
-    background-color: #555;
+    background-color: #34cba5;
 }
 
 @media (max-width: 768px) {
