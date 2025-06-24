@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Mail, Phone, MapPin, Send, CheckCircle, AlertCircle } from 'lucide-react';
+import emailjs from '@emailjs/browser';
 
 interface FormData {
   name: string;
@@ -85,8 +86,25 @@ const Contact: React.FC = () => {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simulate API call
-    setTimeout(() => {
+    try {
+      // EmailJS configuration - you'll need to replace these with your actual values
+      const serviceId = process.env.REACT_APP_EMAILJS_SERVICE_ID || 'your_service_id';
+      const templateId = process.env.REACT_APP_EMAILJS_TEMPLATE_ID || 'your_template_id';
+      const publicKey = process.env.REACT_APP_EMAILJS_PUBLIC_KEY || 'your_public_key';
+
+      // Prepare template parameters
+      const templateParams = {
+        from_name: formData.name,
+        from_email: formData.email,
+        subject: formData.subject,
+        message: formData.message,
+        to_name: 'Amit Adhikary', // Your name
+        reply_to: formData.email,
+      };
+
+      // Send email using EmailJS
+      await emailjs.send(serviceId, templateId, templateParams, publicKey);
+      
       setIsSubmitting(false);
       setSubmitStatus('success');
       setFormData({ name: '', email: '', subject: '', message: '' });
@@ -95,7 +113,16 @@ const Contact: React.FC = () => {
       setTimeout(() => {
         setSubmitStatus(null);
       }, 5000);
-    }, 2000);
+    } catch (error) {
+      console.error('Error sending email:', error);
+      setIsSubmitting(false);
+      setSubmitStatus('error');
+      
+      // Reset status after 5 seconds
+      setTimeout(() => {
+        setSubmitStatus(null);
+      }, 5000);
+    }
   };
 
   const containerVariants = {
@@ -128,8 +155,8 @@ const Contact: React.FC = () => {
     {
       icon: <Phone size={24} />,
       title: "Phone",
-      value: "+91 8145705383",
-      href: "tel:+918145705383"
+      value: "+91 8101029684",
+      href: "tel:+918101028684"
     },
     {
       icon: <MapPin size={24} />,
@@ -177,38 +204,38 @@ const Contact: React.FC = () => {
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
-          className="text-center mb-16"
+          className="text-center mb-12 sm:mb-16"
         >
           <motion.span
             variants={itemVariants}
-            className="inline-block px-4 py-2 bg-secondary/10 text-secondary rounded-full text-sm font-semibold mb-4 border border-secondary/20"
+            className="inline-block px-3 sm:px-4 py-2 bg-secondary/10 text-secondary rounded-full text-xs sm:text-sm font-semibold mb-3 sm:mb-4 border border-secondary/20"
           >
             Let's work together
           </motion.span>
           
           <motion.h2
             variants={itemVariants}
-            className="text-4xl md:text-5xl lg:text-6xl font-bold text-text-primary mb-6"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-text-primary mb-4 sm:mb-6"
           >
             Get In <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Touch</span>
           </motion.h2>
           
           <motion.p
             variants={itemVariants}
-            className="text-lg text-text-secondary max-w-3xl mx-auto leading-relaxed"
+            className="text-base sm:text-lg text-text-secondary max-w-3xl mx-auto leading-relaxed px-4"
           >
             Have a project in mind? Let's discuss how we can bring your ideas to life. 
             I'm always excited to work on new challenges and create amazing solutions together.
           </motion.p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-16">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
           {/* Contact Information */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="space-y-8"
+            className="space-y-6 sm:space-y-8"
           >
             <div className="space-y-6">
               {contactInfo.map((info, index) => (
@@ -228,14 +255,14 @@ const Contact: React.FC = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.8 }}
-              className="bg-gradient-to-br from-bg-card/40 to-bg-card/20 backdrop-blur-sm border border-border-color rounded-2xl p-6 relative overflow-hidden"
+              className="bg-gradient-to-br from-bg-card/40 to-bg-card/20 backdrop-blur-sm border border-border-color rounded-2xl p-4 sm:p-6 relative overflow-hidden"
             >
               <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-secondary/5 rounded-2xl" />
               <div className="relative z-10">
-                <h3 className="text-xl font-bold text-text-primary mb-3">
+                <h3 className="text-lg sm:text-xl font-bold text-text-primary mb-2 sm:mb-3">
                   Let's Create Something Amazing Together!
                 </h3>
-                <p className="text-text-secondary leading-relaxed">
+                <p className="text-sm sm:text-base text-text-secondary leading-relaxed">
                   I'm passionate about turning ideas into reality. Whether you have a specific project 
                   in mind or just want to explore possibilities, I'm here to help you achieve your goals.
                 </p>
@@ -248,130 +275,92 @@ const Contact: React.FC = () => {
             initial={{ opacity: 0, x: 50 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.4 }}
+            className="relative"
           >
-            <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Name Field */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.6, delay: 0.6 }}
-                className="relative group"
-              >
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  onFocus={() => setFocusedField('name')}
-                  onBlur={() => setFocusedField(null)}
-                  required
-                  className="w-full px-4 py-4 bg-bg-card/50 backdrop-blur-sm border border-border-color rounded-xl text-text-primary placeholder-transparent focus:outline-none focus:border-primary transition-all duration-300 peer"
-                  placeholder="Your Name"
-                />
-                <label
-                  htmlFor="name"
-                  className={`absolute left-4 transition-all duration-300 pointer-events-none ${
-                    formData.name || focusedField === 'name'
-                      ? '-top-2 text-xs bg-bg-primary px-2 text-primary'
-                      : 'top-4 text-text-secondary'
-                  }`}
+            <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+              {/* Name and Email Row */}
+              <div className="grid sm:grid-cols-2 gap-4 sm:gap-6">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.6, delay: 0.6 }}
                 >
-                  Your Name
-                </label>
-              </motion.div>
+                  <label htmlFor="name" className="block text-sm font-semibold text-text-primary mb-2">
+                    Your Name
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full px-3 sm:px-4 py-3 sm:py-4 bg-bg-card/50 backdrop-blur-sm border border-border-color rounded-xl text-text-primary placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 text-sm sm:text-base"
+                    placeholder="Enter your name"
+                  />
+                </motion.div>
 
-              {/* Email Field */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.6, delay: 0.7 }}
-                className="relative group"
-              >
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  onFocus={() => setFocusedField('email')}
-                  onBlur={() => setFocusedField(null)}
-                  required
-                  className="w-full px-4 py-4 bg-bg-card/50 backdrop-blur-sm border border-border-color rounded-xl text-text-primary placeholder-transparent focus:outline-none focus:border-primary transition-all duration-300"
-                  placeholder="Your Email"
-                />
-                <label
-                  htmlFor="email"
-                  className={`absolute left-4 transition-all duration-300 pointer-events-none ${
-                    formData.email || focusedField === 'email'
-                      ? '-top-2 text-xs bg-bg-primary px-2 text-primary'
-                      : 'top-4 text-text-secondary'
-                  }`}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.6, delay: 0.7 }}
                 >
-                  Your Email
-                </label>
-              </motion.div>
+                  <label htmlFor="email" className="block text-sm font-semibold text-text-primary mb-2">
+                    Email Address
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full px-3 sm:px-4 py-3 sm:py-4 bg-bg-card/50 backdrop-blur-sm border border-border-color rounded-xl text-text-primary placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 text-sm sm:text-base"
+                    placeholder="Enter your email"
+                  />
+                </motion.div>
+              </div>
 
-              {/* Subject Field */}
+              {/* Subject */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.6, delay: 0.8 }}
-                className="relative group"
               >
+                <label htmlFor="subject" className="block text-sm font-semibold text-text-primary mb-2">
+                  Subject
+                </label>
                 <input
                   type="text"
                   id="subject"
                   name="subject"
                   value={formData.subject}
                   onChange={handleInputChange}
-                  onFocus={() => setFocusedField('subject')}
-                  onBlur={() => setFocusedField(null)}
                   required
-                  className="w-full px-4 py-4 bg-bg-card/50 backdrop-blur-sm border border-border-color rounded-xl text-text-primary placeholder-transparent focus:outline-none focus:border-primary transition-all duration-300"
-                  placeholder="Subject"
+                  className="w-full px-3 sm:px-4 py-3 sm:py-4 bg-bg-card/50 backdrop-blur-sm border border-border-color rounded-xl text-text-primary placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 text-sm sm:text-base"
+                  placeholder="What's this about?"
                 />
-                <label
-                  htmlFor="subject"
-                  className={`absolute left-4 transition-all duration-300 pointer-events-none ${
-                    formData.subject || focusedField === 'subject'
-                      ? '-top-2 text-xs bg-bg-primary px-2 text-primary'
-                      : 'top-4 text-text-secondary'
-                  }`}
-                >
-                  Subject
-                </label>
               </motion.div>
 
-              {/* Message Field */}
+              {/* Message */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.6, delay: 0.9 }}
-                className="relative group"
               >
+                <label htmlFor="message" className="block text-sm font-semibold text-text-primary mb-2">
+                  Message
+                </label>
                 <textarea
                   id="message"
                   name="message"
                   value={formData.message}
                   onChange={handleInputChange}
-                  onFocus={() => setFocusedField('message')}
-                  onBlur={() => setFocusedField(null)}
                   required
-                  rows={6}
-                  className="w-full px-4 py-4 bg-bg-card/50 backdrop-blur-sm border border-border-color rounded-xl text-text-primary placeholder-transparent focus:outline-none focus:border-primary transition-all duration-300 resize-none"
-                  placeholder="Your Message"
+                  rows={5}
+                  className="w-full px-3 sm:px-4 py-3 sm:py-4 bg-bg-card/50 backdrop-blur-sm border border-border-color rounded-xl text-text-primary placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 resize-none text-sm sm:text-base"
+                  placeholder="Tell me about your project..."
                 />
-                <label
-                  htmlFor="message"
-                  className={`absolute left-4 transition-all duration-300 pointer-events-none ${
-                    formData.message || focusedField === 'message'
-                      ? '-top-2 text-xs bg-bg-primary px-2 text-primary'
-                      : 'top-4 text-text-secondary'
-                  }`}
-                >
-                  Your Message
-                </label>
               </motion.div>
 
               {/* Submit Button */}
@@ -385,16 +374,16 @@ const Contact: React.FC = () => {
                   disabled={isSubmitting}
                   whileHover={{ scale: 1.02, y: -2 }}
                   whileTap={{ scale: 0.98 }}
-                  className="w-full bg-gradient-to-r from-primary to-secondary text-white py-4 px-8 rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center space-x-2 disabled:opacity-70 disabled:cursor-not-allowed group"
+                  className="w-full bg-gradient-to-r from-primary to-secondary text-white py-3 sm:py-4 px-6 sm:px-8 rounded-xl font-semibold text-base sm:text-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center space-x-2 disabled:opacity-70 disabled:cursor-not-allowed group"
                 >
                   {isSubmitting ? (
                     <>
-                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                      <div className="w-4 h-4 sm:w-5 sm:h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
                       <span>Sending...</span>
                     </>
                   ) : (
                     <>
-                      <Send size={20} className="group-hover:translate-x-1 transition-transform duration-300" />
+                      <Send size={18} className="sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform duration-300" />
                       <span>Send Message</span>
                     </>
                   )}

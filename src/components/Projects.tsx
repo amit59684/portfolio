@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { ExternalLink, Github } from 'lucide-react';
+import { ExternalLink, Github, ArrowRight } from 'lucide-react';
 
 interface ProjectProps {
   title: string;
@@ -46,16 +46,16 @@ const ProjectCard: React.FC<ProjectProps> = ({
           <div className="absolute inset-0 bg-gradient-to-t from-bg-primary/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           
           {/* Project Links */}
-          <div className="absolute top-4 right-4 flex space-x-2 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+          <div className="absolute top-4 right-4 flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             <motion.a
               href={githubUrl}
               target="_blank"
               rel="noopener noreferrer"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
-              className="w-10 h-10 bg-bg-primary/80 backdrop-blur-sm border border-border-color rounded-full flex items-center justify-center text-text-primary hover:text-primary hover:border-primary/50 transition-all duration-300"
+              className="w-8 h-8 sm:w-10 sm:h-10 bg-bg-primary/80 backdrop-blur-sm border border-border-color rounded-full flex items-center justify-center text-text-primary hover:text-primary hover:border-primary/50 transition-all duration-300"
             >
-              <Github size={18} />
+              <Github size={16} className="sm:w-[18px] sm:h-[18px]" />
             </motion.a>
             
             {liveUrl && (
@@ -65,46 +65,36 @@ const ProjectCard: React.FC<ProjectProps> = ({
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
-                className="w-10 h-10 bg-bg-primary/80 backdrop-blur-sm border border-border-color rounded-full flex items-center justify-center text-text-primary hover:text-secondary hover:border-secondary/50 transition-all duration-300"
+                className="w-8 h-8 sm:w-10 sm:h-10 bg-bg-primary/80 backdrop-blur-sm border border-border-color rounded-full flex items-center justify-center text-text-primary hover:text-secondary hover:border-secondary/50 transition-all duration-300"
               >
-                <ExternalLink size={18} />
+                <ExternalLink size={16} className="sm:w-[18px] sm:h-[18px]" />
               </motion.a>
             )}
           </div>
         </div>
 
         {/* Project Content */}
-        <div className="p-6">
-          <motion.h3
-            className="text-xl font-bold text-text-primary mb-3 group-hover:text-primary transition-colors duration-300"
-            whileHover={{ x: 5 }}
-          >
+        <div className="p-4 sm:p-6">
+          <h3 className="text-lg sm:text-xl font-bold text-text-primary mb-2 sm:mb-3 group-hover:text-primary transition-colors duration-300">
             {title}
-          </motion.h3>
+          </h3>
           
-          <p className="text-text-secondary leading-relaxed mb-4 line-clamp-3">
+          <p className="text-text-secondary text-sm sm:text-base leading-relaxed mb-3 sm:mb-4 line-clamp-3">
             {description}
           </p>
-
+          
           {/* Technologies */}
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-1.5 sm:gap-2">
             {technologies.map((tech, index) => (
-              <motion.span
-                key={tech}
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                transition={{ duration: 0.3, delay: delay + (index * 0.1) }}
-                whileHover={{ scale: 1.05 }}
-                className="px-3 py-1 bg-primary/10 text-primary text-sm rounded-full border border-primary/20 hover:bg-primary/20 transition-all duration-300 cursor-default"
+              <span
+                key={index}
+                className="px-2 sm:px-3 py-1 bg-primary/10 text-primary rounded-full text-xs sm:text-sm font-medium border border-primary/20 hover:bg-primary/20 transition-colors duration-300"
               >
                 {tech}
-              </motion.span>
+              </span>
             ))}
           </div>
         </div>
-
-        {/* Hover glow effect */}
-        <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 to-secondary/20 rounded-2xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10" />
       </div>
     </motion.div>
   );
@@ -118,7 +108,7 @@ const Projects: React.FC = () => {
     {
       title: "Terminal Based Maze Solver",
       description: "Developed a sophisticated terminal-based application that solves complex mazes using various pathfinding algorithms including BFS, DFS, and A*.",
-      image: "/assets/images/Projects/maze.png",
+      image: `${process.env.PUBLIC_URL}/assets/images/Projects/maze.png`,
       technologies: ["Python", "Algorithms", "Data Structures"],
       githubUrl: "https://github.com/amit59684/Terminal-Based-Maze-Solver",
       liveUrl: "#"
@@ -126,7 +116,7 @@ const Projects: React.FC = () => {
     {
       title: "Sudoku Solver",
       description: "Created an intelligent Sudoku puzzle solver using backtracking algorithm that efficiently solves puzzles of varying difficulty levels.",
-      image: "/assets/images/Projects/sudoku.png",
+      image: `${process.env.PUBLIC_URL}/assets/images/Projects/sudoku.png`,
       technologies: ["Python", "Backtracking", "Logic"],
       githubUrl: "https://github.com/amit59684/sudoku_solver",
       liveUrl: "#"
@@ -134,7 +124,7 @@ const Projects: React.FC = () => {
     {
       title: "Terminal Typing Master",
       description: "Built an interactive terminal-based typing practice program with real-time statistics, accuracy tracking, and progressive difficulty levels.",
-      image: "/assets/images/Projects/typing.png",
+      image: `${process.env.PUBLIC_URL}/assets/images/Projects/typing.png`,
       technologies: ["Python", "CLI", "Statistics"],
       githubUrl: "https://github.com/amit59684/Terminal_Typing_Master",
       liveUrl: "#"
@@ -142,7 +132,7 @@ const Projects: React.FC = () => {
     {
       title: "Weather Fetch",
       description: "Designed a comprehensive weather application that fetches real-time weather data from APIs and displays detailed forecasts with intuitive interface.",
-      image: "/assets/images/Projects/Weather.png",
+      image: `${process.env.PUBLIC_URL}/assets/images/Projects/Weather.png`,
       technologies: ["Python", "API Integration", "JSON"],
       githubUrl: "https://github.com/amit59684/Weather-fatch",
       liveUrl: "#"
@@ -170,7 +160,7 @@ const Projects: React.FC = () => {
   };
 
   return (
-    <section id="projects" className="py-20 lg:py-32 relative">
+    <section id="projects" className="py-16 sm:py-20 lg:py-32 relative">
       {/* Background decorative elements */}
       <div className="absolute inset-0 overflow-hidden">
         <motion.div
@@ -184,7 +174,7 @@ const Projects: React.FC = () => {
             x: { duration: 20, repeat: Infinity, ease: "easeInOut" },
             y: { duration: 15, repeat: Infinity, ease: "easeInOut" }
           }}
-          className="absolute top-20 right-10 w-64 h-64 bg-gradient-to-br from-primary/5 to-secondary/5 rounded-full blur-3xl"
+          className="absolute top-20 right-10 w-48 h-48 sm:w-64 sm:h-64 bg-gradient-to-br from-primary/5 to-secondary/5 rounded-full blur-3xl"
         />
       </div>
 
@@ -195,25 +185,25 @@ const Projects: React.FC = () => {
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
-          className="text-center mb-16"
+          className="text-center mb-12 sm:mb-16"
         >
           <motion.span
             variants={itemVariants}
-            className="inline-block px-4 py-2 bg-secondary/10 text-secondary rounded-full text-sm font-semibold mb-4 border border-secondary/20"
+            className="inline-block px-3 sm:px-4 py-2 bg-secondary/10 text-secondary rounded-full text-xs sm:text-sm font-semibold mb-3 sm:mb-4 border border-secondary/20"
           >
             My work
           </motion.span>
           
           <motion.h2
             variants={itemVariants}
-            className="text-4xl md:text-5xl lg:text-6xl font-bold text-text-primary mb-6"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-text-primary mb-4 sm:mb-6"
           >
             Featured <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Projects</span>
           </motion.h2>
           
           <motion.p
             variants={itemVariants}
-            className="text-lg text-text-secondary max-w-3xl mx-auto leading-relaxed"
+            className="text-base sm:text-lg text-text-secondary max-w-3xl mx-auto leading-relaxed px-4"
           >
             Here are some of my recent projects that showcase my skills and passion for development. 
             Each project represents a unique challenge and learning experience.
@@ -221,7 +211,7 @@ const Projects: React.FC = () => {
         </motion.div>
 
         {/* Projects Grid */}
-        <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
+        <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 lg:gap-12">
           {projects.map((project, index) => (
             <ProjectCard
               key={project.title}
@@ -233,22 +223,29 @@ const Projects: React.FC = () => {
 
         {/* Call to Action */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 50 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.8 }}
-          className="text-center mt-16"
+          transition={{ duration: 0.8, delay: 1 }}
+          className="text-center mt-12 sm:mt-16"
         >
+          <motion.p
+            className="text-base sm:text-lg text-text-secondary mb-6 sm:mb-8"
+            whileHover={{ scale: 1.02 }}
+          >
+            Want to see more of my work?
+          </motion.p>
+          
           <motion.a
             href="https://github.com/amit59684"
             target="_blank"
             rel="noopener noreferrer"
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}
-            className="inline-flex items-center space-x-2 bg-gradient-to-r from-primary to-secondary text-white px-8 py-4 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 group"
+            className="inline-flex items-center space-x-2 bg-gradient-to-r from-primary to-secondary text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold text-base sm:text-lg shadow-lg hover:shadow-xl transition-all duration-300 group"
           >
             <Github size={20} />
-            <span>View More Projects</span>
-            <ExternalLink size={16} className="group-hover:translate-x-1 transition-transform duration-300" />
+            <span>View All Projects</span>
+            <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform duration-300" />
           </motion.a>
         </motion.div>
       </div>

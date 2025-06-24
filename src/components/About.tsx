@@ -78,18 +78,18 @@ const About: React.FC = () => {
   };
 
   return (
-    <section id="about" className="py-20 lg:py-32 relative">
+    <section id="about" className="py-16 sm:py-20 lg:py-32 relative">
       {/* Background decorative elements */}
       <div className="absolute inset-0 overflow-hidden">
         <motion.div
           animate={{ rotate: 360 }}
           transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-          className="absolute -top-20 -right-20 w-96 h-96 bg-gradient-to-br from-primary/5 to-secondary/5 rounded-full blur-3xl"
+          className="absolute -top-20 -right-20 w-64 h-64 sm:w-96 sm:h-96 bg-gradient-to-br from-primary/5 to-secondary/5 rounded-full blur-3xl"
         />
         <motion.div
           animate={{ rotate: -360 }}
           transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-          className="absolute -bottom-20 -left-20 w-96 h-96 bg-gradient-to-tr from-secondary/5 to-primary/5 rounded-full blur-3xl"
+          className="absolute -bottom-20 -left-20 w-64 h-64 sm:w-96 sm:h-96 bg-gradient-to-tr from-secondary/5 to-primary/5 rounded-full blur-3xl"
         />
       </div>
 
@@ -99,32 +99,32 @@ const About: React.FC = () => {
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
-          className="text-center mb-16"
+          className="text-center mb-12 sm:mb-16"
         >
           <motion.span
             variants={itemVariants}
-            className="inline-block px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-semibold mb-4 border border-primary/20"
+            className="inline-block px-3 sm:px-4 py-2 bg-primary/10 text-primary rounded-full text-xs sm:text-sm font-semibold mb-3 sm:mb-4 border border-primary/20"
           >
             Get to know me
           </motion.span>
           
           <motion.h2
             variants={itemVariants}
-            className="text-4xl md:text-5xl lg:text-6xl font-bold text-text-primary mb-6"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-text-primary mb-4 sm:mb-6"
           >
             About <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Me</span>
           </motion.h2>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Text Content */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="space-y-6"
+            className="space-y-4 sm:space-y-6"
           >
-            <div className="space-y-6 text-lg text-text-secondary leading-relaxed">
+            <div className="space-y-4 sm:space-y-6 text-base sm:text-lg text-text-secondary leading-relaxed">
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -157,10 +157,13 @@ const About: React.FC = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.6, delay: 0.9 }}
+                className="group"
               >
-                When I'm not coding, you'll find me solving algorithmic challenges, contributing to 
-                open-source projects, or exploring new frameworks and technologies that can enhance 
-                my development toolkit.
+                When I'm not coding, you'll find me solving algorithmic challenges, contributing to open-source projects, 
+                or exploring new frameworks. I believe in continuous learning and staying updated with the ever-evolving 
+                <span className="text-primary font-semibold group-hover:text-secondary transition-colors duration-300 ml-1">
+                  tech landscape
+                </span>.
               </motion.p>
             </div>
 
@@ -197,7 +200,7 @@ const About: React.FC = () => {
             </motion.div>
           </motion.div>
 
-          {/* Statistics */}
+          {/* Stats and Visual Element */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
@@ -205,16 +208,16 @@ const About: React.FC = () => {
             className="relative"
           >
             {/* Stats Container */}
-            <div className="bg-gradient-to-br from-bg-card/50 to-bg-card/30 backdrop-blur-lg border border-border-color rounded-3xl p-8 lg:p-12 shadow-2xl">
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
+            <div className="bg-gradient-to-br from-bg-card/50 to-bg-card/30 backdrop-blur-lg border border-border-color rounded-3xl p-6 sm:p-8 lg:p-12 shadow-2xl">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8">
                 <StatItem number={50} label="Projects Completed" />
                 <StatItem number={200} label="Problems Solved" />
                 <StatItem number={2} label="Years Learning" />
               </div>
 
               {/* Decorative elements */}
-              <div className="absolute -top-6 -right-6 w-24 h-24 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-full blur-xl" />
-              <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-gradient-to-tr from-secondary/10 to-primary/10 rounded-full blur-2xl" />
+              <div className="absolute -top-4 -right-4 sm:-top-6 sm:-right-6 w-16 h-16 sm:w-24 sm:h-24 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-full blur-xl" />
+              <div className="absolute -bottom-4 -left-4 sm:-bottom-6 sm:-left-6 w-20 h-20 sm:w-32 sm:h-32 bg-gradient-to-tr from-secondary/10 to-primary/10 rounded-full blur-2xl" />
             </div>
 
             {/* Floating Tech Icons */}
@@ -228,7 +231,7 @@ const About: React.FC = () => {
                 repeat: Infinity, 
                 ease: "easeInOut" 
               }}
-              className="absolute -top-8 -left-8 w-16 h-16 bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center text-2xl shadow-lg"
+              className="absolute -top-6 -left-6 sm:-top-8 sm:-left-8 w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center text-xl sm:text-2xl shadow-lg"
             >
               🐍
             </motion.div>
@@ -242,11 +245,11 @@ const About: React.FC = () => {
                 duration: 8, 
                 repeat: Infinity, 
                 ease: "easeInOut",
-                delay: 1
+                delay: 2
               }}
-              className="absolute -bottom-8 -right-8 w-16 h-16 bg-gradient-to-br from-secondary to-primary rounded-2xl flex items-center justify-center text-2xl shadow-lg"
+              className="absolute -bottom-6 -right-6 sm:-bottom-8 sm:-right-8 w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-secondary to-primary rounded-2xl flex items-center justify-center text-xl sm:text-2xl shadow-lg"
             >
-              💾
+              ⚡
             </motion.div>
           </motion.div>
         </div>
