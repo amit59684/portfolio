@@ -102,7 +102,7 @@ const Hero: React.FC = () => {
               transition={{ duration: 0.6, delay: 1 }}
               className="text-base sm:text-lg text-text-secondary max-w-2xl leading-relaxed mx-auto lg:mx-0"
             >
-              A passionate Backend Developer specializing in Python, Django, and modern web technologies. 
+              A passionate Backend Developer specializing in Python, Django, React, Node.js, and modern web technologies. 
               I create robust, scalable solutions that power exceptional digital experiences.
             </motion.p>
 
