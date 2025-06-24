@@ -177,7 +177,7 @@ const Hero: React.FC = () => {
                 <div className="absolute inset-0 bg-gradient-to-br from-primary to-secondary rounded-full p-1">
                   <div className="w-full h-full bg-bg-primary rounded-full p-3 sm:p-4">
                     <img
-                      src={`${process.env.PUBLIC_URL}/assets/images/Pi7_Passport_Photo (1).jpeg`}
+                      src={`${process.env.PUBLIC_URL}/assets/images/Pi7_Passport_Photo_v2.jpeg`}
                       alt="Amit Adhikary"
                       className="w-full h-full object-cover rounded-full shadow-2xl"
                     />
