@@ -126,7 +126,7 @@ const SocialSidebar: React.FC = () => {
       bgColor: 'bg-gradient-to-r from-green-500 to-green-400'
     },
     {
-      href: 'https://www.instagram.com/amit_2648/',
+      href: 'https://www.instagram.com/amitadhikary02/',
       icon: <Instagram size={18} className="text-white" />,
       label: 'Instagram',
       color: 'bg-pink-500',
