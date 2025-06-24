@@ -211,7 +211,7 @@ const About: React.FC = () => {
             <div className="bg-gradient-to-br from-bg-card/50 to-bg-card/30 backdrop-blur-lg border border-border-color rounded-3xl p-6 sm:p-8 lg:p-12 shadow-2xl">
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8">
                 <StatItem number={50} label="Projects Completed" />
-                <StatItem number={200} label="Problems Solved" />
+                <StatItem number={2000} label="Problems Solved" />
                 <StatItem number={2} label="Years Learning" />
               </div>
 
