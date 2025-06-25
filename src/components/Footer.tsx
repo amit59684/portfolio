@@ -64,7 +64,7 @@ const Footer: React.FC = () => {
             {/* Copyright Text */}
             <div className="space-y-2">
               <p className="text-text-secondary text-lg">
-                &copy; 2024 Amit Adhikary. All rights reserved.
+                &copy; 2025 Amit Adhikary. All rights reserved.
               </p>
               
               <motion.p 
