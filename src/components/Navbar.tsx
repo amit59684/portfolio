@@ -57,6 +57,27 @@ const Navbar: React.FC = () => {
     setIsMobileMenuOpen(false);
   };
 
+  const nameVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const letterVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.3 }
+    }
+  };
+
   return (
     <motion.nav
       initial={{ y: -100 }}
@@ -70,15 +91,64 @@ const Navbar: React.FC = () => {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          {/* Logo */}
+          {/* Animated Name Logo */}
           <motion.div
+            onClick={() => scrollToSection('home')}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="flex-shrink-0"
+            className="flex-shrink-0 cursor-pointer"
+            variants={nameVariants}
+            initial="hidden"
+            animate="visible"
           >
-            <div className="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center text-white font-bold text-lg cursor-pointer">
-              A
+            <div className="flex items-center space-x-1">
+              {/* First Name - Amit */}
+              <motion.div className="flex">
+                {"Amit".split("").map((letter, index) => (
+                  <motion.span
+                    key={`amit-${index}`}
+                    variants={letterVariants}
+                    whileHover={{ 
+                      scale: 1.2, 
+                      color: "#6366f1",
+                      transition: { duration: 0.2 }
+                    }}
+                    className="text-xl sm:text-2xl font-bold text-text-primary hover:text-primary transition-colors duration-300"
+                  >
+                    {letter}
+                  </motion.span>
+                ))}
+              </motion.div>
+              
+              {/* Space */}
+              <span className="text-xl sm:text-2xl font-bold text-text-primary">&nbsp;</span>
+              
+              {/* Last Name - Adhikary */}
+              <motion.div className="flex">
+                {"Adhikary".split("").map((letter, index) => (
+                  <motion.span
+                    key={`adhikary-${index}`}
+                    variants={letterVariants}
+                    whileHover={{ 
+                      scale: 1.2, 
+                      color: "#f59e0b",
+                      transition: { duration: 0.2 }
+                    }}
+                    className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent hover:from-secondary hover:to-primary transition-all duration-300"
+                  >
+                    {letter}
+                  </motion.span>
+                ))}
+              </motion.div>
             </div>
+            
+            {/* Animated underline */}
+            <motion.div
+              className="h-0.5 bg-gradient-to-r from-primary to-secondary rounded-full mt-1"
+              initial={{ width: 0 }}
+              animate={{ width: "100%" }}
+              transition={{ delay: 1, duration: 0.8 }}
+            />
           </motion.div>
 
           {/* Desktop Navigation */}
