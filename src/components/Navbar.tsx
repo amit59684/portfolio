@@ -43,18 +43,27 @@ const Navbar: React.FC = () => {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('scroll', handleSectionChange);
     };
-  }, []);
+  }, [navItems]);
 
   const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      const offsetTop = element.offsetTop - 80;
-      window.scrollTo({
-        top: offsetTop,
-        behavior: 'smooth'
-      });
-    }
+    // Close mobile menu first
     setIsMobileMenuOpen(false);
+    
+    // Small delay to allow menu to close
+    setTimeout(() => {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        const offsetTop = element.offsetTop - 80;
+        window.scrollTo({
+          top: offsetTop,
+          behavior: 'smooth'
+        });
+      }
+    }, 100);
+  };
+
+  const handleMobileMenuToggle = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
   const nameVariants = {
@@ -83,7 +92,7 @@ const Navbar: React.FC = () => {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
-      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled 
           ? 'bg-bg-card/80 backdrop-blur-md border-b border-border-color shadow-lg' 
           : 'bg-transparent'
@@ -195,8 +204,9 @@ const Navbar: React.FC = () => {
           <div className="md:hidden">
             <motion.button
               whileTap={{ scale: 0.95 }}
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="bg-bg-secondary p-2 rounded-lg text-text-primary hover:text-primary transition-colors duration-300"
+              onClick={handleMobileMenuToggle}
+              className="relative z-50 bg-bg-secondary p-2 rounded-lg text-text-primary hover:text-primary transition-colors duration-300 touch-manipulation"
+              aria-label="Toggle mobile menu"
             >
               {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </motion.button>
@@ -212,7 +222,7 @@ const Navbar: React.FC = () => {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="md:hidden bg-bg-card/95 backdrop-blur-md border-t border-border-color"
+            className="md:hidden bg-bg-card/95 backdrop-blur-md border-t border-border-color relative z-40"
           >
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
               {navItems.map((item) => (
@@ -220,7 +230,8 @@ const Navbar: React.FC = () => {
                   key={item.id}
                   onClick={() => scrollToSection(item.id)}
                   whileHover={{ x: 10 }}
-                  className={`block w-full text-left px-3 py-2 rounded-md text-base font-medium transition-all duration-300 ${
+                  whileTap={{ scale: 0.95 }}
+                  className={`block w-full text-left px-3 py-3 rounded-md text-base font-medium transition-all duration-300 touch-manipulation ${
                     activeSection === item.id
                       ? 'text-primary bg-primary/10'
                       : 'text-text-secondary hover:text-text-primary hover:bg-bg-secondary/50'
@@ -237,7 +248,9 @@ const Navbar: React.FC = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ x: 10 }}
-                className="flex items-center space-x-2 w-full px-3 py-2 mt-4 bg-primary hover:bg-primary/90 text-white rounded-lg font-medium transition-all duration-300"
+                whileTap={{ scale: 0.95 }}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="flex items-center space-x-2 w-full px-3 py-3 mt-4 bg-primary hover:bg-primary/90 text-white rounded-lg font-medium transition-all duration-300 touch-manipulation"
               >
                 <Download size={16} />
                 <span>Download Resume</span>
