@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { Mail, Phone, MapPin, Send, CheckCircle, AlertCircle } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, CheckCircle, AlertCircle, Eye } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 
 interface FormData {
@@ -16,11 +16,23 @@ interface ContactInfoProps {
   value: string;
   href?: string;
   delay: number;
+  isPrivate?: boolean;
 }
 
-const ContactInfoCard: React.FC<ContactInfoProps> = ({ icon, title, value, href, delay }) => {
+const ContactInfoCard: React.FC<ContactInfoProps> = ({ icon, title, value, href, delay, isPrivate = false }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
+  const [isRevealed, setIsRevealed] = useState(false);
+
+  const handleReveal = (e: React.MouseEvent) => {
+    if (isPrivate && !isRevealed) {
+      e.preventDefault();
+      setIsRevealed(true);
+    }
+  };
+
+  const displayValue = isPrivate && !isRevealed ? "Click to reveal" : value;
+  const showEyeIcon = isPrivate && !isRevealed;
 
   const CardContent = () => (
     <motion.div
@@ -30,8 +42,9 @@ const ContactInfoCard: React.FC<ContactInfoProps> = ({ icon, title, value, href,
       transition={{ duration: 0.5, delay }}
       whileHover={{ y: -5, scale: 1.02 }}
       className="group w-full"
+      onClick={handleReveal}
     >
-      <div className="bg-gradient-to-br from-bg-card/60 to-bg-card/40 backdrop-blur-lg border border-border-color rounded-2xl p-6 hover:border-primary/50 transition-all duration-300 relative overflow-hidden cursor-pointer h-full">
+      <div className={`bg-gradient-to-br from-bg-card/60 to-bg-card/40 backdrop-blur-lg border border-border-color rounded-2xl p-6 hover:border-primary/50 transition-all duration-300 relative overflow-hidden h-full ${isPrivate && !isRevealed ? 'cursor-pointer' : 'cursor-default'}`}>
         {/* Background glow */}
         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl" />
         
@@ -47,15 +60,37 @@ const ContactInfoCard: React.FC<ContactInfoProps> = ({ icon, title, value, href,
             {title}
           </h4>
           
-          <p className="text-text-secondary group-hover:text-text-primary transition-colors duration-300 break-words">
-            {value}
-          </p>
+          <div className="flex items-center justify-center space-x-2">
+            <p className={`text-text-secondary group-hover:text-text-primary transition-colors duration-300 break-words ${isPrivate && !isRevealed ? 'text-primary/70 font-medium' : ''}`}>
+              {displayValue}
+            </p>
+            {showEyeIcon && (
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                className="text-primary/70"
+              >
+                <Eye size={16} />
+              </motion.div>
+            )}
+          </div>
+          
+          {isPrivate && !isRevealed && (
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="text-xs text-text-secondary/60 mt-1"
+            >
+              Tap to view {title.toLowerCase()}
+            </motion.p>
+          )}
         </div>
       </div>
     </motion.div>
   );
 
-  return href ? (
+  // Only make it a link if revealed or not private
+  return (href && (isRevealed || !isPrivate)) ? (
     <a href={href} target={href.startsWith('mailto:') ? '_self' : '_blank'} rel="noopener noreferrer" className="block w-full">
       <CardContent />
     </a>
@@ -129,18 +164,21 @@ const Contact: React.FC = () => {
       icon: <Mail size={24} />,
       title: "Email",
       value: "amitadhikary59684@gmail.com",
-      href: "mailto:amitadhikary59684@gmail.com"
+      href: "mailto:amitadhikary59684@gmail.com",
+      isPrivate: true
     },
     {
       icon: <Phone size={24} />,
       title: "Phone",
       value: "+91 8101029684",
-      href: "tel:+918101028684"
+      href: "tel:+918101029684",
+      isPrivate: true
     },
     {
       icon: <MapPin size={24} />,
       title: "Location",
-      value: "India"
+      value: "India",
+      isPrivate: false
     }
   ];
 
@@ -234,6 +272,7 @@ const Contact: React.FC = () => {
                     value={info.value}
                     href={info.href}
                     delay={0.5 + (index * 0.1)}
+                    isPrivate={info.isPrivate}
                   />
                 ))}
               </div>
