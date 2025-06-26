@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Gamepad2, Code, Zap } from 'lucide-react';
+import { Gamepad2, Code } from 'lucide-react';
 
 const Hero: React.FC = () => {
   const [displayText, setDisplayText] = useState('');
@@ -111,23 +111,7 @@ const Hero: React.FC = () => {
             transition={{ duration: 1, delay: 0.3 }}
             className="text-center lg:text-left order-2 lg:order-1 space-y-8"
           >
-            {/* Gaming Status HUD */}
-            <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.5 }}
-              className="flex items-center justify-center lg:justify-start space-x-4 mb-6"
-            >
-              <div className="flex items-center space-x-2 text-success text-sm font-orbitron">
-                <div className="w-2 h-2 bg-success rounded-full animate-pulse-neon"></div>
-                <span>SYSTEM ONLINE</span>
-              </div>
-              <div className="text-text-muted">|</div>
-              <div className="flex items-center space-x-2 text-primary text-sm font-orbitron">
-                <Zap size={12} />
-                <span>HIGH PERFORMANCE</span>
-              </div>
-            </motion.div>
+
 
             {/* Gaming Greeting */}
             <motion.p
@@ -223,7 +207,7 @@ const Hero: React.FC = () => {
             >
               {[
                 { label: 'PROJECTS', value: '55+', icon: Code },
-                { label: 'EXPERIENCE', value: '4+', icon: Zap },
+                { label: 'EXPERIENCE', value: '4+', icon: Code },
                 { label: 'SKILLS', value: '15+', icon: Gamepad2 }
               ].map((stat, index) => (
                 <motion.div
@@ -308,13 +292,7 @@ const Hero: React.FC = () => {
                     <div className="absolute bottom-2 left-2 w-4 h-4 sm:w-6 sm:h-6 border-l-2 border-b-2 border-primary"></div>
                     <div className="absolute bottom-2 right-2 w-4 h-4 sm:w-6 sm:h-6 border-r-2 border-b-2 border-primary"></div>
                     
-                    {/* Status Bar */}
-                    <div className="absolute bottom-2 left-2 right-2 sm:bottom-4 sm:left-4 sm:right-4 bg-bg-primary/80 backdrop-blur-sm rounded p-1 sm:p-2">
-                      <div className="flex justify-between text-xs font-orbitron">
-                        <span className="text-success">STATUS: ONLINE</span>
-                        <span className="text-primary">LVL: EXPERT</span>
-                      </div>
-                    </div>
+
                   </div>
                 </motion.div>
 
@@ -356,20 +334,7 @@ const Hero: React.FC = () => {
         </div>
       </div>
 
-      {/* Gaming HUD Elements - Mobile Safe */}
-      <div className="absolute top-2 left-2 sm:top-6 sm:left-6 text-xs font-orbitron text-primary/70 space-y-1 max-w-[45vw] overflow-hidden">
-        <div className="text-xs sm:text-sm">{'<SYSTEM_INIT>'}</div>
-        <div className="text-xs sm:text-sm">USER: AMIT_ADHIKARY</div>
-        <div className="text-xs sm:text-sm">ROLE: FULL_STACK_DEV</div>
-        <div className="text-xs sm:text-sm">{'</SYSTEM_INIT>'}</div>
-      </div>
 
-      <div className="absolute top-2 right-2 sm:top-6 sm:right-6 text-xs font-orbitron text-secondary/70 space-y-1 text-right max-w-[45vw] overflow-hidden">
-        <div className="text-xs sm:text-sm">PERFORMANCE: 100%</div>
-        <div className="text-xs sm:text-sm">UPTIME: 24/7</div>
-        <div className="text-xs sm:text-sm">PING: &lt;1ms</div>
-        <div className="text-xs sm:text-sm">STATUS: READY</div>
-      </div>
 
       {/* Gaming Corner Decorations - Mobile Constrained */}
       <motion.div
