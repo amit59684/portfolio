@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { ExternalLink, Github, ArrowRight } from 'lucide-react';
+import { ExternalLink, Github, Zap, Code2, Gamepad2 } from 'lucide-react';
 
 interface ProjectProps {
   title: string;
@@ -8,7 +8,7 @@ interface ProjectProps {
   image: string;
   technologies: string[];
   githubUrl: string;
-  liveUrl?: string;
+  liveUrl: string;
   delay: number;
 }
 
@@ -22,80 +22,151 @@ const ProjectCard: React.FC<ProjectProps> = ({
   delay
 }) => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const isInView = useInView(ref, { once: true, margin: "-50px" });
 
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 50 }}
-      animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, delay }}
-      className="group relative"
+      initial={{ opacity: 0, y: 50, rotateX: -15 }}
+      animate={isInView ? { opacity: 1, y: 0, rotateX: 0 } : {}}
+      transition={{ duration: 0.8, delay, type: "spring", stiffness: 100 }}
+      className="group relative transform-3d perspective-container"
     >
-      <div className="bg-gradient-to-br from-bg-card/50 to-bg-card/30 backdrop-blur-lg border border-border-color rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:border-primary/50">
-        {/* Project Image */}
-        <div className="relative overflow-hidden aspect-video">
+      <motion.div
+        whileHover={{ 
+          rotateY: 5, 
+          rotateX: 5, 
+          translateY: -20,
+          scale: 1.02
+        }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
+        className="gaming-card h-full overflow-hidden transform-3d"
+        style={{
+          background: 'linear-gradient(145deg, rgba(0, 255, 255, 0.05), rgba(139, 92, 246, 0.05))',
+          border: '1px solid rgba(0, 255, 255, 0.2)',
+          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)'
+        }}
+      >
+        {/* 3D Image Container */}
+        <div className="relative overflow-hidden">
           <motion.img
             src={image}
             alt={title}
-            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-            whileHover={{ scale: 1.05 }}
+            className="w-full h-48 sm:h-56 object-cover transition-transform duration-500"
+            whileHover={{ scale: 1.1 }}
           />
           
-          {/* Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-bg-primary/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          {/* Holographic Overlay */}
+          <motion.div
+            className="absolute inset-0 bg-gradient-to-br from-neon-cyan/20 via-transparent to-neon-purple/20"
+            animate={{
+              opacity: [0.3, 0.6, 0.3],
+            }}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          />
           
-          {/* Project Links */}
-          <div className="absolute top-4 right-4 flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          {/* Gaming HUD Overlay */}
+          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center space-x-4">
             <motion.a
               href={githubUrl}
               target="_blank"
               rel="noopener noreferrer"
-              whileHover={{ scale: 1.1 }}
+              whileHover={{ scale: 1.2, rotateZ: 5 }}
               whileTap={{ scale: 0.9 }}
-              className="w-8 h-8 sm:w-10 sm:h-10 bg-bg-primary/80 backdrop-blur-sm border border-border-color rounded-full flex items-center justify-center text-text-primary hover:text-primary hover:border-primary/50 transition-all duration-300"
+              className="w-12 h-12 bg-black/80 backdrop-blur-sm rounded-full flex items-center justify-center text-neon-cyan hover:text-white transition-colors duration-300 border border-neon-cyan"
             >
-              <Github size={16} className="sm:w-[18px] sm:h-[18px]" />
+              <Github size={20} />
             </motion.a>
-            
-            {liveUrl && (
+            {liveUrl !== '#' && (
               <motion.a
                 href={liveUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                whileHover={{ scale: 1.1 }}
+                whileHover={{ scale: 1.2, rotateZ: -5 }}
                 whileTap={{ scale: 0.9 }}
-                className="w-8 h-8 sm:w-10 sm:h-10 bg-bg-primary/80 backdrop-blur-sm border border-border-color rounded-full flex items-center justify-center text-text-primary hover:text-secondary hover:border-secondary/50 transition-all duration-300"
+                className="w-12 h-12 bg-black/80 backdrop-blur-sm rounded-full flex items-center justify-center text-neon-purple hover:text-white transition-colors duration-300 border border-neon-purple"
               >
-                <ExternalLink size={16} className="sm:w-[18px] sm:h-[18px]" />
+                <ExternalLink size={20} />
               </motion.a>
             )}
           </div>
+
+          {/* Gaming Status Indicator */}
+          <div className="absolute top-4 left-4 bg-black/70 backdrop-blur-sm rounded-lg px-3 py-1 flex items-center space-x-2">
+            <div className="w-2 h-2 bg-neon-green rounded-full animate-pulse"></div>
+            <span className="text-neon-green text-xs font-mono">LIVE</span>
+          </div>
         </div>
 
-        {/* Project Content */}
-        <div className="p-4 sm:p-6">
-          <h3 className="text-lg sm:text-xl font-bold text-text-primary mb-2 sm:mb-3 group-hover:text-primary transition-colors duration-300">
+        {/* 3D Content Section */}
+        <div className="p-4 sm:p-6 relative">
+          {/* Gaming Title */}
+          <motion.h3
+            className="text-lg sm:text-xl font-bold mb-2 sm:mb-3 group-hover:text-neon-cyan transition-colors duration-300"
+            style={{
+              textShadow: '0 0 10px rgba(0, 255, 255, 0.3)'
+            }}
+          >
             {title}
-          </h3>
+          </motion.h3>
           
-          <p className="text-text-secondary text-sm sm:text-base leading-relaxed mb-3 sm:mb-4 line-clamp-3">
+          {/* Description with Gaming Typography */}
+          <p className="text-gray-300 text-sm sm:text-base leading-relaxed mb-3 sm:mb-4 line-clamp-3 font-mono">
             {description}
           </p>
           
-          {/* Technologies */}
-          <div className="flex flex-wrap gap-1.5 sm:gap-2">
+          {/* 3D Tech Stack */}
+          <div className="flex flex-wrap gap-2 mb-4">
             {technologies.map((tech, index) => (
-              <span
+              <motion.span
                 key={index}
-                className="px-2 sm:px-3 py-1 bg-primary/10 text-primary rounded-full text-xs sm:text-sm font-medium border border-primary/20 hover:bg-primary/20 transition-colors duration-300"
+                whileHover={{ 
+                  scale: 1.1, 
+                  rotateZ: 2,
+                  boxShadow: '0 0 15px rgba(0, 255, 255, 0.4)'
+                }}
+                className="px-2 sm:px-3 py-1 bg-gradient-to-r from-neon-cyan/20 to-neon-purple/20 text-neon-cyan rounded-full text-xs sm:text-sm font-medium border border-neon-cyan/30 hover:border-neon-cyan transition-all duration-300 font-mono transform-3d"
               >
                 {tech}
-              </span>
+              </motion.span>
             ))}
           </div>
+
+          {/* Gaming Action Bar */}
+          <div className="flex justify-between items-center pt-2 border-t border-gray-700">
+            <motion.div
+              className="flex space-x-2"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: delay + 0.5 }}
+            >
+              <Code2 className="w-4 h-4 text-neon-purple" />
+              <Zap className="w-4 h-4 text-neon-cyan" />
+            </motion.div>
+            <div className="text-xs text-gray-400 font-mono">PROJECT_{String(delay).padStart(2, '0')}</div>
+          </div>
         </div>
-      </div>
+
+        {/* 3D Scan Line Effect */}
+        <motion.div
+          className="absolute inset-0 opacity-0 group-hover:opacity-100 pointer-events-none"
+          animate={{
+            background: [
+              'linear-gradient(0deg, transparent 0%, rgba(0, 255, 255, 0.1) 50%, transparent 100%)',
+              'linear-gradient(180deg, transparent 0%, rgba(0, 255, 255, 0.1) 50%, transparent 100%)',
+            ]
+          }}
+          transition={{
+            duration: 2,
+            repeat: Infinity,
+            ease: "linear"
+          }}
+        />
+      </motion.div>
     </motion.div>
   );
 };
@@ -107,15 +178,15 @@ const Projects: React.FC = () => {
   const projects = [
     {
       title: "ParthaEducare",
-      description: "A comprehensive medical education consultancy website serving students in Ranaghat, West Bengal, India. This platform connects students with medical and pharmacy educational opportunities across India, offering expert career guidance and admission assistance with modern web technologies.",
+      description: "A comprehensive medical education consultancy website based in Ranaghat, West Bengal, India. The platform connects students with medical and pharmacy educational opportunities across India, offering expert career guidance and admission assistance with modern web technologies.",
       image: `${process.env.PUBLIC_URL}/assets/images/Projects/parthaeducare.png`,
-      technologies: ["HTML5", "CSS3", "JavaScript ES6+", "Responsive Design"],
+      technologies: ["HTML5", "CSS3", "JavaScript (ES6+)", "Responsive Design"],
       githubUrl: "https://github.com/amit59684/ParthaEducare",
       liveUrl: "https://parthaeducare.com"
     },
     {
-      title: "AdmissionJunction",
-      description: "A comprehensive platform for college admissions and educational institution management built with the MERN stack. Features college listings, application management, user profiles, admin dashboard, and responsive design for seamless experience across all devices.",
+      title: "Admission Junction",
+      description: "A comprehensive platform for college admissions and educational institution management built with the MERN stack. Features college listings, application management, user profiles, admin dashboard, and responsive design for seamless user experience.",
       image: `${process.env.PUBLIC_URL}/assets/images/Projects/admissionjunction.png`,
       technologies: ["MongoDB", "Express.js", "React", "Node.js"],
       githubUrl: "https://github.com/amit59684/AdmissionJunction",
@@ -139,79 +210,85 @@ const Projects: React.FC = () => {
     }
   ];
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        duration: 0.6,
-        staggerChildren: 0.2
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6 }
-    }
-  };
-
   return (
-    <section id="projects" className="py-16 sm:py-20 lg:py-32 relative">
-      {/* Background decorative elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <motion.div
-          animate={{ 
-            rotate: 360,
-            x: [0, 100, 0],
-            y: [0, -50, 0]
-          }}
-          transition={{ 
-            rotate: { duration: 50, repeat: Infinity, ease: "linear" },
-            x: { duration: 20, repeat: Infinity, ease: "easeInOut" },
-            y: { duration: 15, repeat: Infinity, ease: "easeInOut" }
-          }}
-          className="absolute top-20 right-10 w-48 h-48 sm:w-64 sm:h-64 bg-gradient-to-br from-primary/5 to-secondary/5 rounded-full blur-3xl"
-        />
+    <section id="projects" className="py-16 sm:py-20 lg:py-32 relative overflow-hidden">
+      {/* Gaming 3D Background */}
+      <div className="absolute inset-0">
+        <div className="cyber-grid opacity-10" />
+        {/* 3D Floating Elements */}
+        {[...Array(20)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="particle-3d"
+            animate={{
+              x: [0, 100, -100, 0],
+              y: [0, -50, 50, 0],
+              rotateZ: [0, 360],
+            }}
+            transition={{
+              duration: 10 + i * 2,
+              repeat: Infinity,
+              delay: i * 0.5,
+            }}
+            style={{
+              left: Math.random() * 100 + '%',
+              top: Math.random() * 100 + '%',
+            }}
+          />
+        ))}
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Section Header */}
+        {/* Gaming Section Header */}
         <motion.div
           ref={ref}
-          variants={containerVariants}
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-          className="text-center mb-12 sm:mb-16"
+          initial={{ opacity: 0, y: 50 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8 }}
+          className="text-center mb-12 sm:mb-16 transform-3d"
         >
-          <motion.span
-            variants={itemVariants}
-            className="inline-block px-3 sm:px-4 py-2 bg-secondary/10 text-secondary rounded-full text-xs sm:text-sm font-semibold mb-3 sm:mb-4 border border-secondary/20"
+          {/* Gaming Badge */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={isInView ? { opacity: 1, scale: 1 } : {}}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="inline-flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-neon-cyan/20 to-neon-purple/20 border border-neon-cyan/30 rounded-full text-sm font-semibold mb-4"
           >
-            My work
-          </motion.span>
+            <Gamepad2 className="w-4 h-4 text-neon-cyan" />
+            <span className="hologram-text font-mono">MY_PROJECTS.exe</span>
+          </motion.div>
           
+          {/* 3D Title */}
           <motion.h2
-            variants={itemVariants}
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-text-primary mb-4 sm:mb-6"
+            initial={{ opacity: 0, y: 30, rotateX: -15 }}
+            animate={isInView ? { opacity: 1, y: 0, rotateX: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 transform-3d"
           >
-            Featured <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Projects</span>
+            Featured{' '}
+            <span 
+              className="hologram-text"
+              style={{
+                textShadow: '0 0 30px #00ffff, 0 0 60px #8b5cf6'
+              }}
+            >
+              Projects
+            </span>
           </motion.h2>
           
+          {/* Gaming Description */}
           <motion.p
-            variants={itemVariants}
-            className="text-base sm:text-lg text-text-secondary max-w-3xl mx-auto leading-relaxed px-4"
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="text-base sm:text-lg text-gray-300 max-w-3xl mx-auto leading-relaxed font-mono gaming-card p-4"
           >
-            Here are some of my recent projects that showcase my skills and passion for development. 
-            Each project represents a unique challenge and learning experience.
+            &gt; Showcasing innovative solutions crafted with cutting-edge technologies. Each project demonstrates my passion for creating immersive digital experiences.
           </motion.p>
         </motion.div>
 
-        {/* Projects Grid */}
-        <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 lg:gap-12">
+        {/* 3D Projects Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 mb-12">
           {projects.map((project, index) => (
             <ProjectCard
               key={project.title}
@@ -221,31 +298,33 @@ const Projects: React.FC = () => {
           ))}
         </div>
 
-        {/* Call to Action */}
+        {/* Gaming CTA Section */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 1 }}
-          className="text-center mt-12 sm:mt-16"
+          className="text-center"
         >
-          <motion.p
-            className="text-base sm:text-lg text-text-secondary mb-6 sm:mb-8"
-            whileHover={{ scale: 1.02 }}
-          >
-            Want to see more of my work?
-          </motion.p>
-          
           <motion.a
             href="https://github.com/amit59684"
             target="_blank"
             rel="noopener noreferrer"
-            whileHover={{ scale: 1.05, y: -2 }}
+            whileHover={{ 
+              scale: 1.05, 
+              rotateY: 5,
+              boxShadow: '0 0 40px rgba(0, 255, 255, 0.5)'
+            }}
             whileTap={{ scale: 0.95 }}
-            className="inline-flex items-center space-x-2 bg-gradient-to-r from-primary to-secondary text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold text-base sm:text-lg shadow-lg hover:shadow-xl transition-all duration-300 group"
+            className="inline-flex items-center space-x-3 neon-button transform-3d"
           >
             <Github size={20} />
             <span>View All Projects</span>
-            <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform duration-300" />
+            <motion.div
+              animate={{ x: [0, 5, 0] }}
+              transition={{ duration: 1.5, repeat: Infinity }}
+            >
+              →
+            </motion.div>
           </motion.a>
         </motion.div>
       </div>

@@ -174,21 +174,21 @@ const Contact: React.FC = () => {
     {
       icon: <Mail size={24} />,
       title: "Email",
-      value: "amitadhikary59684@gmail.com",
+      value:"***@gmail.com",
       href: "mailto:amitadhikary59684@gmail.com",
       isPrivate: true
     },
     {
       icon: <Phone size={24} />,
       title: "Phone",
-      value: "+91 8101029684",
+      value: "+91 81** **9684",
       href: "tel:+918101029684",
       isPrivate: true
     },
     {
       icon: <MapPin size={24} />,
       title: "Location",
-      value: "India",
+      value: "Kolkata, West Bengal, India",
       isPrivate: false
     }
   ];
