@@ -108,6 +108,7 @@ const Skills: React.FC = () => {
 
   const technicalSkills = [
     { name: "Python", level: 90, icon: `${process.env.PUBLIC_URL}/assets/images/TS/python.png` },
+    { name: "JavaScript", level: 95, icon: `${process.env.PUBLIC_URL}/assets/images/TS/java-script.png` },
     { name: "Django", level: 85, icon: `${process.env.PUBLIC_URL}/assets/images/TS/django (1).png` },
     { name: "MySQL", level: 80, icon: `${process.env.PUBLIC_URL}/assets/images/TS/mysql.png` },
     { name: "MongoDB", level: 75, icon: `${process.env.PUBLIC_URL}/assets/images/TS/database-storage.png` },

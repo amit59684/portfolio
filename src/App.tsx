@@ -10,6 +10,7 @@ import SocialSidebar from './components/SocialSidebar';
 import BackToTop from './components/BackToTop';
 import ParticleBackground from './components/ParticleBackground';
 import LoadingScreen from './components/LoadingScreen';
+import PWAInstallPrompt from './components/PWAInstallPrompt';
 import './App.css';
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
       <Footer />
       <SocialSidebar />
       <BackToTop />
+      <PWAInstallPrompt />
     </div>
   );
 }

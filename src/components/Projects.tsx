@@ -106,12 +106,20 @@ const Projects: React.FC = () => {
 
   const projects = [
     {
-      title: "Terminal Based Maze Solver",
-      description: "Developed a sophisticated terminal-based application that solves complex mazes using various pathfinding algorithms including BFS, DFS, and A*.",
-      image: `${process.env.PUBLIC_URL}/assets/images/Projects/maze.png`,
-      technologies: ["Python", "Algorithms", "Data Structures"],
-      githubUrl: "https://github.com/amit59684/Terminal-Based-Maze-Solver",
-      liveUrl: "#"
+      title: "ParthaEducare",
+      description: "A comprehensive medical education consultancy website serving students in Ranaghat, West Bengal, India. This platform connects students with medical and pharmacy educational opportunities across India, offering expert career guidance and admission assistance with modern web technologies.",
+      image: `${process.env.PUBLIC_URL}/assets/images/Projects/parthaeducare.png`,
+      technologies: ["HTML5", "CSS3", "JavaScript ES6+", "Responsive Design"],
+      githubUrl: "https://github.com/amit59684/ParthaEducare",
+      liveUrl: "https://parthaeducare.com"
+    },
+    {
+      title: "AdmissionJunction",
+      description: "A comprehensive platform for college admissions and educational institution management built with the MERN stack. Features college listings, application management, user profiles, admin dashboard, and responsive design for seamless experience across all devices.",
+      image: `${process.env.PUBLIC_URL}/assets/images/Projects/admissionjunction.png`,
+      technologies: ["MongoDB", "Express.js", "React", "Node.js"],
+      githubUrl: "https://github.com/amit59684/AdmissionJunction",
+      liveUrl: "https://admissionjunction.com"
     },
     {
       title: "Sudoku Solver",
@@ -122,19 +130,11 @@ const Projects: React.FC = () => {
       liveUrl: "#"
     },
     {
-      title: "Terminal Typing Master",
-      description: "Built an interactive terminal-based typing practice program with real-time statistics, accuracy tracking, and progressive difficulty levels.",
-      image: `${process.env.PUBLIC_URL}/assets/images/Projects/typing.png`,
-      technologies: ["Python", "CLI", "Statistics"],
-      githubUrl: "https://github.com/amit59684/Terminal_Typing_Master",
-      liveUrl: "#"
-    },
-    {
-      title: "Weather Fetch",
-      description: "Designed a comprehensive weather application that fetches real-time weather data from APIs and displays detailed forecasts with intuitive interface.",
-      image: `${process.env.PUBLIC_URL}/assets/images/Projects/Weather.png`,
-      technologies: ["Python", "API Integration", "JSON"],
-      githubUrl: "https://github.com/amit59684/Weather-fatch",
+      title: "Terminal Based Maze Solver",
+      description: "Developed a sophisticated terminal-based application that solves complex mazes using various pathfinding algorithms including BFS, DFS, and A*.",
+      image: `${process.env.PUBLIC_URL}/assets/images/Projects/maze.png`,
+      technologies: ["Python", "Algorithms", "Data Structures"],
+      githubUrl: "https://github.com/amit59684/Terminal-Based-Maze-Solver",
       liveUrl: "#"
     }
   ];

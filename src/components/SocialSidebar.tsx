@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mail, Github, Linkedin, Code, Instagram, MessageCircle, Menu, X } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 
 interface SocialLinkProps {
   href: string;
-  icon: React.ReactNode;
+  iconSrc: string;
   label: string;
   color: string;
   bgColor: string;
   index: number;
 }
 
-const SocialLink: React.FC<SocialLinkProps> = ({ href, icon, label, color, bgColor, index }) => {
+const SocialLink: React.FC<SocialLinkProps> = ({ href, iconSrc, label, color, bgColor, index }) => {
   return (
     <motion.div
       initial={{ 
@@ -49,8 +49,12 @@ const SocialLink: React.FC<SocialLinkProps> = ({ href, icon, label, color, bgCol
         className={`group flex items-center ${bgColor} rounded-r-full pl-4 pr-6 py-3 shadow-lg hover:shadow-xl transition-all duration-300 min-w-[200px] relative overflow-hidden`}
       >
         {/* Icon container */}
-        <div className={`w-10 h-10 ${color} rounded-full flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-300`}>
-          {icon}
+        <div className={`w-10 h-10 ${color} rounded-full flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-300 p-2`}>
+          <img 
+            src={iconSrc} 
+            alt={label} 
+            className="w-full h-full object-contain"
+          />
         </div>
         
         {/* Label */}
@@ -84,53 +88,60 @@ const SocialSidebar: React.FC = () => {
 
   const socialLinks = [
     {
+      href: 'https://www.instagram.com/amitadhikary02/',
+      iconSrc: '/assets/images/Contacts/instagram.png',
+      label: 'Instagram',
+      color: 'bg-pink-500',
+      bgColor: 'bg-gradient-to-r from-purple-500 via-pink-500 to-red-500'
+    },
+    {
+      href: 'https://www.facebook.com/amitadhikary02',
+      iconSrc: '/assets/images/Contacts/facebook.png',
+      label: 'Facebook',
+      color: 'bg-blue-600',
+      bgColor: 'bg-gradient-to-r from-blue-600 to-blue-500'
+    },
+    {
+      href: 'https://wa.me/8101029684',
+      iconSrc: '/assets/images/Contacts/whatsapp.png',
+      label: 'WhatsApp',
+      color: 'bg-green-500',
+      bgColor: 'bg-gradient-to-r from-green-500 to-green-400'
+    },
+    {
+      href: 'https://www.linkedin.com/in/amit-adhikary-4394b8167/',
+      iconSrc: '/assets/images/Contacts/linkedin.png',
+      label: 'LinkedIn',
+      color: 'bg-blue-600',
+      bgColor: 'bg-gradient-to-r from-blue-600 to-blue-500'
+    },
+    {
       href: 'mailto:amitadhikary59684@gmail.com',
-      icon: <Mail size={18} className="text-white" />,
+      iconSrc: '/assets/images/Contacts/email.png',
       label: 'Email Me',
       color: 'bg-red-500',
       bgColor: 'bg-gradient-to-r from-red-600 to-red-500'
     },
     {
       href: 'https://github.com/amit59684',
-      icon: <Github size={18} className="text-white" />,
+      iconSrc: '/assets/images/Contacts/github.png',
       label: 'GitHub',
       color: 'bg-gray-800',
       bgColor: 'bg-gradient-to-r from-gray-800 to-gray-700'
     },
     {
-      href: 'https://www.linkedin.com/in/amit-adhikary-4394b8167/',
-      icon: <Linkedin size={18} className="text-white" />,
-      label: 'LinkedIn',
-      color: 'bg-blue-600',
-      bgColor: 'bg-gradient-to-r from-blue-600 to-blue-500'
-    },
-    {
       href: 'https://leetcode.com/u/amitadhikary/',
-      icon: <Code size={18} className="text-white" />,
+      iconSrc: '/assets/images/Contacts/leetcode.png',
       label: 'LeetCode',
       color: 'bg-orange-500',
       bgColor: 'bg-gradient-to-r from-orange-600 to-orange-500'
     },
     {
       href: 'https://www.hackerrank.com/profile/amit059684',
-      icon: <Code size={18} className="text-white" />,
+      iconSrc: '/assets/images/Contacts/hackerrank.png',
       label: 'HackerRank',
       color: 'bg-green-600',
       bgColor: 'bg-gradient-to-r from-green-600 to-green-500'
-    },
-    {
-      href: 'https://wa.me/8101029684',
-      icon: <MessageCircle size={18} className="text-white" />,
-      label: 'WhatsApp',
-      color: 'bg-green-500',
-      bgColor: 'bg-gradient-to-r from-green-500 to-green-400'
-    },
-    {
-      href: 'https://www.instagram.com/amitadhikary02/',
-      icon: <Instagram size={18} className="text-white" />,
-      label: 'Instagram',
-      color: 'bg-pink-500',
-      bgColor: 'bg-gradient-to-r from-purple-500 via-pink-500 to-red-500'
     }
   ];
 
@@ -158,7 +169,7 @@ const SocialSidebar: React.FC = () => {
                   <SocialLink
                     key={link.label}
                     href={link.href}
-                    icon={link.icon}
+                    iconSrc={link.iconSrc}
                     label={link.label}
                     color={link.color}
                     bgColor={link.bgColor}

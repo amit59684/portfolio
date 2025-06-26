@@ -1,12 +1,12 @@
 import React, { useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Mail, Phone, MapPin, Send, CheckCircle, AlertCircle, Eye } from 'lucide-react';
-import emailjs from '@emailjs/browser';
+
 
 interface FormData {
   name: string;
   email: string;
-  subject: string;
+  phone: string;
   message: string;
 }
 
@@ -105,7 +105,7 @@ const Contact: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
-    subject: '',
+    phone: '',
     message: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -120,42 +120,53 @@ const Contact: React.FC = () => {
     e.preventDefault();
     setIsSubmitting(true);
     
+    // Google Sheets integration
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwT06_AM7sRbUc1bNB-ThLhX_47XzbRi2VEadJphk1Z7Pa32vZW_aN72RBkBazWYS0v/exec';
+
+    // Prepare URL-encoded form data for Google Sheets
+    const formDataToSend = new URLSearchParams();
+    formDataToSend.append('name', formData.name);
+    formDataToSend.append('email', formData.email);
+    formDataToSend.append('phone', formData.phone);
+    formDataToSend.append('message', formData.message);
+    formDataToSend.append('timestamp', new Date().toISOString());
+
     try {
-      // EmailJS configuration - you'll need to replace these with your actual values
-      const serviceId = process.env.REACT_APP_EMAILJS_SERVICE_ID || 'your_service_id';
-      const templateId = process.env.REACT_APP_EMAILJS_TEMPLATE_ID || 'your_template_id';
-      const publicKey = process.env.REACT_APP_EMAILJS_PUBLIC_KEY || 'your_public_key';
+      // Send data to Google Sheets using no-cors for faster submission
+      // Note: We can't read the response with no-cors, but it's much faster
+      fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors', // This makes it fire-and-forget, much faster!
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: formDataToSend.toString(),
+      }).catch(error => {
+        // Log any network errors, but don't show them to user
+        console.log('Network error (expected with no-cors):', error);
+      });
 
-      // Prepare template parameters
-      const templateParams = {
-        from_name: formData.name,
-        from_email: formData.email,
-        subject: formData.subject,
-        message: formData.message,
-        to_name: 'Amit Adhikary', // Your name
-        reply_to: formData.email,
-      };
-
-      // Send email using EmailJS
-      await emailjs.send(serviceId, templateId, templateParams, publicKey);
-      
-      setIsSubmitting(false);
-      setSubmitStatus('success');
-      setFormData({ name: '', email: '', subject: '', message: '' });
-      
-      // Reset status after 5 seconds
+      // Show success immediately (optimistic UI)
       setTimeout(() => {
-        setSubmitStatus(null);
-      }, 5000);
+        setIsSubmitting(false);
+        setSubmitStatus('success');
+        setFormData({ name: '', email: '', phone: '', message: '' });
+        
+        // Reset status after 4 seconds
+        setTimeout(() => {
+          setSubmitStatus(null);
+        }, 4000);
+      }, 300); // Small delay to show loading state
+
     } catch (error) {
-      console.error('Error sending email:', error);
+      console.error('Error submitting form:', error);
       setIsSubmitting(false);
       setSubmitStatus('error');
       
-      // Reset status after 5 seconds
+      // Reset status after 4 seconds
       setTimeout(() => {
         setSubmitStatus(null);
-      }, 5000);
+      }, 4000);
     }
   };
 
@@ -307,7 +318,7 @@ const Contact: React.FC = () => {
           >
             <div className="bg-gradient-to-br from-bg-card/40 to-bg-card/20 backdrop-blur-lg border border-border-color rounded-2xl p-6 lg:p-8">
               <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Name and Email Row */}
+                {/* Name, Email, and Phone Row */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -350,24 +361,24 @@ const Contact: React.FC = () => {
                   </motion.div>
                 </div>
 
-                {/* Subject */}
+                {/* Phone Number */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={isInView ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.9 }}
                 >
-                  <label htmlFor="subject" className="block text-sm font-semibold text-text-primary mb-2">
-                    Subject
+                  <label htmlFor="phone" className="block text-sm font-semibold text-text-primary mb-2">
+                    Phone Number
                   </label>
                   <input
-                    type="text"
-                    id="subject"
-                    name="subject"
-                    value={formData.subject}
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    value={formData.phone}
                     onChange={handleInputChange}
                     required
                     className="w-full px-4 py-3 lg:py-4 bg-bg-card/60 backdrop-blur-sm border border-border-color rounded-xl text-text-primary placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300"
-                    placeholder="What's this about?"
+                    placeholder="Enter your phone number"
                   />
                 </motion.div>
 
