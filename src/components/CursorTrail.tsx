@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface TrailPoint {
@@ -11,6 +11,8 @@ interface TrailPoint {
 const CursorTrail: React.FC = () => {
   const [trail, setTrail] = useState<TrailPoint[]>([]);
   const [isDesktop, setIsDesktop] = useState(false);
+  const [cursorPos, setCursorPos] = useState({ x: -100, y: -100 });
+  const rafRef = useRef<number | null>(null);
 
   // Check if device is desktop
   useEffect(() => {
@@ -25,97 +27,161 @@ const CursorTrail: React.FC = () => {
     return () => window.removeEventListener('resize', checkDevice);
   }, []);
 
-  const handleMouseMove = useCallback((e: MouseEvent) => {
-    if (!isDesktop) return;
-
+  const updateTrail = useCallback((x: number, y: number) => {
     const newPoint: TrailPoint = {
       id: Date.now() + Math.random(),
-      x: e.clientX,
-      y: e.clientY,
+      x,
+      y,
       timestamp: Date.now(),
     };
 
     setTrail(prevTrail => {
       const updatedTrail = [...prevTrail, newPoint];
-      // Keep only recent points (last 15 points or 500ms)
-      const cutoffTime = Date.now() - 500;
+      // Keep only recent points (last 12 points or 400ms)
+      const cutoffTime = Date.now() - 400;
       return updatedTrail
         .filter(point => point.timestamp > cutoffTime)
-        .slice(-15);
+        .slice(-12);
     });
-  }, [isDesktop]);
+  }, []);
+
+  const handleMouseMove = useCallback((e: MouseEvent) => {
+    if (!isDesktop) return;
+
+    // Use pageX/pageY for absolute positioning including scroll
+    const x = e.pageX;
+    const y = e.pageY;
+    
+    setCursorPos({ x, y });
+
+    // Throttle trail updates using requestAnimationFrame
+    if (rafRef.current !== null) {
+      cancelAnimationFrame(rafRef.current);
+    }
+    
+    rafRef.current = requestAnimationFrame(() => {
+      updateTrail(x, y);
+    });
+  }, [isDesktop, updateTrail]);
 
   useEffect(() => {
     if (isDesktop) {
       document.addEventListener('mousemove', handleMouseMove);
-      return () => document.removeEventListener('mousemove', handleMouseMove);
+      return () => {
+        document.removeEventListener('mousemove', handleMouseMove);
+        if (rafRef.current !== null) {
+          cancelAnimationFrame(rafRef.current);
+        }
+      };
     }
   }, [handleMouseMove, isDesktop]);
 
-  // Clean up old trail points
+  // Clean up old trail points more frequently
   useEffect(() => {
     const cleanupInterval = setInterval(() => {
-      const cutoffTime = Date.now() - 500;
+      const cutoffTime = Date.now() - 400;
       setTrail(prevTrail => 
         prevTrail.filter(point => point.timestamp > cutoffTime)
       );
-    }, 100);
+    }, 50);
 
     return () => clearInterval(cleanupInterval);
   }, []);
 
+  // Clear trail when leaving desktop mode
+  useEffect(() => {
+    if (!isDesktop) {
+      setTrail([]);
+      setCursorPos({ x: -100, y: -100 });
+    }
+  }, [isDesktop]);
+
   if (!isDesktop) return null;
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-50">
-      <AnimatePresence>
+    <div className="fixed inset-0 pointer-events-none z-50" style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0 }}>
+      <AnimatePresence mode="popLayout">
         {trail.map((point, index) => {
           const age = Date.now() - point.timestamp;
-          const opacity = Math.max(0, 1 - age / 500);
-          const scale = Math.max(0.1, 1 - age / 500);
+          const maxAge = 400;
+          const opacity = Math.max(0, 1 - age / maxAge);
+          const scale = Math.max(0.2, 1 - age / maxAge);
+          const size = 8 - (index * 0.3); // Gradually smaller sizes
           
           return (
             <motion.div
               key={point.id}
               initial={{ opacity: 0, scale: 0 }}
               animate={{ 
-                opacity: opacity * 0.8,
+                opacity: opacity * 0.7,
                 scale: scale,
-                x: point.x - 6,
-                y: point.y - 6,
               }}
               exit={{ opacity: 0, scale: 0 }}
               transition={{ 
-                duration: 0.2,
+                duration: 0.15,
                 ease: "easeOut"
               }}
-              className="absolute w-3 h-3 pointer-events-none"
+              className="absolute pointer-events-none"
               style={{
+                left: point.x - size / 2,
+                top: point.y - size / 2,
+                width: size,
+                height: size,
                 background: `radial-gradient(circle, 
-                  rgba(99, 102, 241, ${opacity * 0.8}) 0%, 
-                  rgba(168, 85, 247, ${opacity * 0.6}) 50%, 
+                  rgba(99, 102, 241, ${opacity * 0.9}) 0%, 
+                  rgba(168, 85, 247, ${opacity * 0.7}) 50%, 
                   transparent 100%
                 )`,
                 borderRadius: '50%',
-                boxShadow: `0 0 ${scale * 10}px rgba(99, 102, 241, ${opacity * 0.3})`,
+                boxShadow: `0 0 ${scale * 8}px rgba(99, 102, 241, ${opacity * 0.4})`,
+                willChange: 'transform, opacity',
               }}
             />
           );
         })}
       </AnimatePresence>
 
-      {/* Main cursor dot */}
+      {/* Main cursor dot - follows mouse precisely */}
       <motion.div
-        className="absolute w-2 h-2 bg-gradient-to-r from-primary to-secondary rounded-full pointer-events-none mix-blend-difference"
+        className="absolute pointer-events-none"
         animate={{
-          x: trail.length > 0 ? trail[trail.length - 1]?.x - 4 : -100,
-          y: trail.length > 0 ? trail[trail.length - 1]?.y - 4 : -100,
+          left: cursorPos.x - 3,
+          top: cursorPos.y - 3,
         }}
         transition={{
           type: "spring",
-          stiffness: 500,
-          damping: 28,
+          stiffness: 1000,
+          damping: 50,
+          mass: 0.1,
+        }}
+        style={{
+          width: 6,
+          height: 6,
+          background: 'linear-gradient(45deg, #6366f1, #a855f7)',
+          borderRadius: '50%',
+          boxShadow: '0 0 10px rgba(99, 102, 241, 0.6)',
+          zIndex: 51,
+          willChange: 'transform',
+        }}
+      />
+
+      {/* Outer ring that follows with slight delay */}
+      <motion.div
+        className="absolute pointer-events-none border-2 border-primary/30 rounded-full"
+        animate={{
+          left: cursorPos.x - 12,
+          top: cursorPos.y - 12,
+        }}
+        transition={{
+          type: "spring",
+          stiffness: 200,
+          damping: 20,
           mass: 0.5,
+        }}
+        style={{
+          width: 24,
+          height: 24,
+          willChange: 'transform',
         }}
       />
     </div>
