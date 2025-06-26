@@ -35,10 +35,12 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  max-width: 100%;
 }
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
@@ -48,6 +50,27 @@ body {
   line-height: 1.6;
   overflow-x: hidden;
   position: relative;
+  width: 100%;
+  max-width: 100vw;
+}
+
+/* Mobile-first overflow prevention */
+* {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Ensure all sections respect viewport */
+section {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+/* Container constraints */
+.container, .max-w-7xl, .max-w-6xl, .max-w-5xl, .max-w-4xl, .max-w-3xl, .max-w-2xl, .max-w-xl {
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 /* Gaming-style scrollbar */
@@ -350,6 +373,87 @@ body {
   
   .card-3d:hover .card-3d-inner {
     transform: rotateX(5deg) rotateY(5deg) translateZ(10px);
+  }
+
+  /* Mobile typography scaling */
+  .text-5xl { font-size: 2.5rem; }
+  .text-6xl { font-size: 3rem; }
+  .text-7xl { font-size: 3.5rem; }
+  .text-8xl { font-size: 4rem; }
+  
+  /* Mobile particle constraints */
+  .particle {
+    width: 2px;
+    height: 2px;
+  }
+  
+  /* Gaming grid mobile optimization */
+  .gaming-grid {
+    background-size: 30px 30px;
+  }
+  
+  /* Reduce transform intensity on mobile */
+  .gaming-card:hover {
+    transform: translateY(-3px) rotateX(1deg) rotateY(1deg);
+  }
+  
+  /* Mobile HUD scaling */
+  .font-orbitron {
+    font-size: 0.7rem;
+  }
+  
+  /* Gaming panel mobile sizing */
+  .gaming-panel {
+    border-radius: 12px;
+    padding: 0.5rem;
+  }
+  
+  /* Mobile scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+}
+
+@media (max-width: 640px) {
+  /* Extra small mobile fixes */
+  .text-4xl { font-size: 2rem; }
+  .text-5xl { font-size: 2.25rem; }
+  .text-6xl { font-size: 2.5rem; }
+  .text-7xl { font-size: 2.75rem; }
+  .text-8xl { font-size: 3rem; }
+  
+  /* Reduce spacing on small screens */
+  .space-y-8 > * + * { margin-top: 1.5rem; }
+  .gap-12 { gap: 2rem; }
+  .gap-16 { gap: 2.5rem; }
+  
+  /* Mobile safe padding */
+  .px-4 { padding-left: 1rem; padding-right: 1rem; }
+  .px-6 { padding-left: 1rem; padding-right: 1rem; }
+  .px-8 { padding-left: 1rem; padding-right: 1rem; }
+  
+  /* Constrain large elements */
+  .w-80 { width: 16rem; max-width: 90vw; }
+  .h-80 { height: 16rem; max-height: 90vw; }
+  .w-96 { width: 18rem; max-width: 90vw; }
+  .h-96 { height: 18rem; max-height: 90vw; }
+}
+
+@media (max-width: 480px) {
+  /* Very small mobile devices */
+  .text-lg { font-size: 1rem; }
+  .text-xl { font-size: 1.125rem; }
+  .text-2xl { font-size: 1.25rem; }
+  .text-3xl { font-size: 1.5rem; }
+  .text-4xl { font-size: 1.75rem; }
+  
+  /* Ultra compact avatar */
+  .w-80, .w-96 { width: 14rem; max-width: 85vw; }
+  .h-80, .h-96 { height: 14rem; max-height: 85vw; }
+  
+  /* Reduce gaming panel padding */
+  .gaming-panel {
+    padding: 0.25rem;
   }
 }
 

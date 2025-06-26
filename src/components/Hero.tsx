@@ -60,19 +60,19 @@ const Hero: React.FC = () => {
         className="absolute inset-0 opacity-60"
       />
 
-      {/* Floating Gaming Particles */}
+      {/* Floating Gaming Particles - Mobile Safe */}
       <div className="absolute inset-0 overflow-hidden">
         {[...Array(60)].map((_, i) => (
           <motion.div
             key={i}
             className="absolute"
             initial={{
-              x: Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1000),
+              x: Math.random() * (typeof window !== 'undefined' ? Math.min(window.innerWidth - 50, 1000) : 950),
               y: Math.random() * (typeof window !== 'undefined' ? window.innerHeight : 1000),
             }}
             animate={{
               y: [null, -100],
-              x: [null, Math.random() * 100 - 50],
+              x: [null, Math.random() * 20 - 10], // Reduced horizontal movement
               opacity: [0, 1, 0],
               scale: [0, Math.random() * 1.5 + 0.5, 0],
             }}
@@ -184,8 +184,8 @@ const Hero: React.FC = () => {
               transition={{ duration: 0.8, delay: 1 }}
               className="h-16 flex items-center justify-center lg:justify-start"
             >
-              <div className="gaming-panel p-4 backdrop-blur-gaming">
-                <span className="text-2xl sm:text-3xl md:text-4xl font-bold font-orbitron text-gaming-gradient tracking-wider">
+              <div className="gaming-panel p-2 sm:p-4 backdrop-blur-gaming max-w-full overflow-hidden">
+                <span className="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-bold font-orbitron text-gaming-gradient tracking-wider break-words">
                   {displayText}
                   <motion.span
                     animate={{ opacity: [1, 0, 1] }}
@@ -257,7 +257,7 @@ const Hero: React.FC = () => {
                 transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
                 className="relative transform-style-preserve-3d"
               >
-                {/* Holographic Container */}
+                {/* Holographic Container - Mobile Responsive */}
                 <motion.div
                   animate={{
                     boxShadow: [
@@ -268,7 +268,7 @@ const Hero: React.FC = () => {
                     ]
                   }}
                   transition={{ duration: 4, repeat: Infinity }}
-                  className="w-80 h-80 sm:w-96 sm:h-96 rounded-gaming-lg border-4 border-primary/50 relative overflow-hidden gaming-panel backdrop-blur-gaming"
+                  className="w-72 h-72 sm:w-80 sm:h-80 md:w-96 md:h-96 max-w-[90vw] max-h-[90vw] rounded-gaming-lg border-4 border-primary/50 relative overflow-hidden gaming-panel backdrop-blur-gaming mx-auto"
                 >
                   
                   {/* Avatar Image */}
@@ -303,13 +303,13 @@ const Hero: React.FC = () => {
                   {/* Gaming HUD Overlay */}
                   <div className="absolute inset-0 border-2 border-primary/30 rounded-gaming">
                     {/* Corner HUD Elements */}
-                    <div className="absolute top-2 left-2 w-6 h-6 border-l-2 border-t-2 border-primary"></div>
-                    <div className="absolute top-2 right-2 w-6 h-6 border-r-2 border-t-2 border-primary"></div>
-                    <div className="absolute bottom-2 left-2 w-6 h-6 border-l-2 border-b-2 border-primary"></div>
-                    <div className="absolute bottom-2 right-2 w-6 h-6 border-r-2 border-b-2 border-primary"></div>
+                    <div className="absolute top-2 left-2 w-4 h-4 sm:w-6 sm:h-6 border-l-2 border-t-2 border-primary"></div>
+                    <div className="absolute top-2 right-2 w-4 h-4 sm:w-6 sm:h-6 border-r-2 border-t-2 border-primary"></div>
+                    <div className="absolute bottom-2 left-2 w-4 h-4 sm:w-6 sm:h-6 border-l-2 border-b-2 border-primary"></div>
+                    <div className="absolute bottom-2 right-2 w-4 h-4 sm:w-6 sm:h-6 border-r-2 border-b-2 border-primary"></div>
                     
                     {/* Status Bar */}
-                    <div className="absolute bottom-4 left-4 right-4 bg-bg-primary/80 backdrop-blur-sm rounded p-2">
+                    <div className="absolute bottom-2 left-2 right-2 sm:bottom-4 sm:left-4 sm:right-4 bg-bg-primary/80 backdrop-blur-sm rounded p-1 sm:p-2">
                       <div className="flex justify-between text-xs font-orbitron">
                         <span className="text-success">STATUS: ONLINE</span>
                         <span className="text-primary">LVL: EXPERT</span>
@@ -318,69 +318,71 @@ const Hero: React.FC = () => {
                   </div>
                 </motion.div>
 
-                {/* 3D Floating Gaming Icons */}
-                {[
-                  { icon: '⚡', color: 'primary', delay: 0 },
-                  { icon: '🚀', color: 'secondary', delay: 1 },
-                  { icon: '💎', color: 'accent', delay: 2 },
-                  { icon: '🎯', color: 'success', delay: 3 },
-                ].map((item, index) => (
-                  <motion.div
-                    key={index}
-                    animate={{
-                      y: [0, -20, 0],
-                      rotateY: [0, 180, 360],
-                      rotateX: [0, 90, 0],
-                    }}
-                    transition={{
-                      duration: 4 + index,
-                      repeat: Infinity,
-                      delay: item.delay,
-                      ease: "easeInOut"
-                    }}
-                    className={`absolute text-2xl z-20 transform-style-preserve-3d`}
-                    style={{
-                      top: `${20 + index * 15}%`,
-                      left: index % 2 === 0 ? '-10%' : '110%',
-                      filter: `drop-shadow(0 0 10px var(--${item.color}))`
-                    }}
-                  >
-                    {item.icon}
-                  </motion.div>
-                ))}
+                {/* Safe Gaming Icons - Mobile Constrained */}
+                <div className="hidden sm:block">
+                  {[
+                    { icon: '⚡', color: 'primary', delay: 0, position: { top: '10%', right: '105%' } },
+                    { icon: '🚀', color: 'secondary', delay: 1, position: { top: '30%', left: '105%' } },
+                    { icon: '💎', color: 'accent', delay: 2, position: { top: '70%', right: '105%' } },
+                    { icon: '🎯', color: 'success', delay: 3, position: { top: '90%', left: '105%' } },
+                  ].map((item, index) => (
+                    <motion.div
+                      key={index}
+                      animate={{
+                        y: [0, -10, 0],
+                        scale: [1, 1.2, 1],
+                      }}
+                      transition={{
+                        duration: 3 + index,
+                        repeat: Infinity,
+                        delay: item.delay,
+                        ease: "easeInOut"
+                      }}
+                      className="absolute text-lg z-20 hidden lg:block"
+                      style={{
+                        top: item.position.top,
+                        left: item.position.left,
+                        right: item.position.right,
+                        filter: `drop-shadow(0 0 8px var(--${item.color}))`
+                      }}
+                    >
+                      {item.icon}
+                    </motion.div>
+                  ))}
+                </div>
               </motion.div>
             </div>
           </motion.div>
         </div>
       </div>
 
-      {/* Gaming HUD Elements */}
-      <div className="absolute top-6 left-6 text-xs font-orbitron text-primary/70 space-y-1">
-        <div>{'<SYSTEM_INIT>'}</div>
-        <div>USER: AMIT_ADHIKARY</div>
-        <div>ROLE: FULL_STACK_DEV</div>
-        <div>{'</SYSTEM_INIT>'}</div>
+      {/* Gaming HUD Elements - Mobile Safe */}
+      <div className="absolute top-2 left-2 sm:top-6 sm:left-6 text-xs font-orbitron text-primary/70 space-y-1 max-w-[45vw] overflow-hidden">
+        <div className="text-xs sm:text-sm">{'<SYSTEM_INIT>'}</div>
+        <div className="text-xs sm:text-sm">USER: AMIT_ADHIKARY</div>
+        <div className="text-xs sm:text-sm">ROLE: FULL_STACK_DEV</div>
+        <div className="text-xs sm:text-sm">{'</SYSTEM_INIT>'}</div>
       </div>
 
-      <div className="absolute top-6 right-6 text-xs font-orbitron text-secondary/70 space-y-1 text-right">
-        <div>PERFORMANCE: 100%</div>
-        <div>UPTIME: 24/7</div>
-        <div>PING: &lt;1ms</div>
-        <div>STATUS: READY</div>
+      <div className="absolute top-2 right-2 sm:top-6 sm:right-6 text-xs font-orbitron text-secondary/70 space-y-1 text-right max-w-[45vw] overflow-hidden">
+        <div className="text-xs sm:text-sm">PERFORMANCE: 100%</div>
+        <div className="text-xs sm:text-sm">UPTIME: 24/7</div>
+        <div className="text-xs sm:text-sm">PING: &lt;1ms</div>
+        <div className="text-xs sm:text-sm">STATUS: READY</div>
       </div>
 
-      {/* Gaming Corner Decorations */}
+      {/* Gaming Corner Decorations - Mobile Constrained */}
       <motion.div
         animate={{ rotate: 360 }}
         transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-        className="absolute bottom-8 left-8 w-16 h-16 border-2 border-accent/30 rounded-full"
+        className="absolute bottom-4 left-4 sm:bottom-8 sm:left-8 w-12 h-12 sm:w-16 sm:h-16 border-2 border-accent/30 rounded-full"
         style={{ filter: "drop-shadow(0 0 10px var(--accent))" }}
       />
 
       <motion.div
         animate={{ rotate: -360 }}
         transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-        className="absolute bottom-8 right-8 w-20 h-20 border border-success/30 rounded-full"
+        className="absolute bottom-4 right-4 sm:bottom-8 sm:right-8 w-10 h-10 sm:w-20 sm:h-20 border border-success/30 rounded-full"
         style={{ filter: "drop-shadow(0 0 8px var(--success))" }}
       />
     </section>
