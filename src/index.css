@@ -242,6 +242,16 @@ body {
   min-height: 100vh;
   position: relative;
   background: radial-gradient(ellipse at center, #0a0a0f 0%, #000000 100%);
+  /* IMPORTANT: Do not use overflow hidden on App as it clips fixed elements */
+}
+
+/* Ensure body doesn't clip fixed elements */
+body > div[style*="position: fixed"] {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 999999 !important;
 }
 
 /* Bulletproof navbar visibility */
@@ -265,6 +275,8 @@ div[style*="position: fixed"][style*="z-index: 999999"] {
   opacity: 1 !important;
   transform: none !important;
   pointer-events: auto !important;
+  clip: auto !important;
+  clip-path: none !important;
 }
 
 /* Ensure navbar itself is always visible */
@@ -285,4 +297,10 @@ nav .gaming-card:hover {
 /* Prevent any 3D effects on navbar elements */
 nav *:hover {
   transform: none !important;
+}
+
+/* Ensure scroll-to-top button is visible */
+.fixed.bottom-8.right-8 {
+  position: fixed !important;
+  z-index: 9999 !important;
 }

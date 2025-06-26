@@ -15,22 +15,24 @@ import './App.css';
 
 function App() {
   return (
-    <div className="App">
+    <>
       <LoadingScreen />
-      <ParticleBackground />
       <Navbar />
-      <main>
-        <Hero />
-        <About />
-        <Projects />
-        <Skills />
-        <Contact />
-      </main>
-      <Footer />
-      <SocialSidebar />
       <BackToTop />
-      <PWAInstallPrompt />
-    </div>
+      <div className="App">
+        <ParticleBackground />
+        <main>
+          <Hero />
+          <About />
+          <Projects />
+          <Skills />
+          <Contact />
+        </main>
+        <Footer />
+        <SocialSidebar />
+        <PWAInstallPrompt />
+      </div>
+    </>
   );
 }
 
