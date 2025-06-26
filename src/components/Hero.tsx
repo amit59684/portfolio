@@ -1,44 +1,44 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Mail, ChevronDown } from 'lucide-react';
+import { Download, Play, Gamepad2, Code, Zap } from 'lucide-react';
 
 const Hero: React.FC = () => {
   const [displayText, setDisplayText] = useState('');
-  const [currentTitleIndex, setCurrentTitleIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
 
   const titles = [
-    'Full Stack Developer',
-    'React Developer',
-    'TypeScript Expert',
-    'Python Enthusiast',
-    'Web Developer',
-    'Software Engineer'
+    'FULL STACK DEVELOPER',
+    'BACKEND ARCHITECT', 
+    'DIGITAL INNOVATOR',
+    'CODE WARRIOR',
+    'SYSTEM DESIGNER'
   ];
 
   useEffect(() => {
-    const currentTitle = titles[currentTitleIndex];
     let timeout: NodeJS.Timeout;
+
+    const currentTitle = titles[currentIndex];
 
     if (isDeleting) {
       timeout = setTimeout(() => {
         setDisplayText(currentTitle.substring(0, displayText.length - 1));
-        if (displayText === '') {
-          setIsDeleting(false);
-          setCurrentTitleIndex((prev) => (prev + 1) % titles.length);
-        }
-      }, 50);
+      }, 100);
     } else {
       timeout = setTimeout(() => {
         setDisplayText(currentTitle.substring(0, displayText.length + 1));
-        if (displayText === currentTitle) {
-          setTimeout(() => setIsDeleting(true), 2000);
-        }
-      }, 100);
+      }, 150);
+    }
+
+    if (!isDeleting && displayText === currentTitle) {
+      setTimeout(() => setIsDeleting(true), 3000);
+    } else if (isDeleting && displayText === '') {
+      setIsDeleting(false);
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % titles.length);
     }
 
     return () => clearTimeout(timeout);
-  }, [displayText, currentTitleIndex, isDeleting, titles]);
+  }, [displayText, isDeleting, currentIndex, titles]);
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
@@ -48,333 +48,381 @@ const Hero: React.FC = () => {
   };
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16 sm:pt-0">
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-bg-primary via-bg-secondary to-bg-primary opacity-50" />
+    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Gaming Grid Background */}
+      <div className="gaming-grid" />
       
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-          {/* Text Content */}
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="space-y-4 sm:space-y-6 text-center lg:text-left order-2 lg:order-1 overflow-hidden"
-          >
-            {/* Greeting */}
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="text-base sm:text-lg text-text-secondary font-medium"
-            >
-              Hello, I'm
-            </motion.p>
+      {/* 3D Holographic Background */}
+      <motion.div
+        animate={{
+          background: [
+            "radial-gradient(circle at 30% 40%, rgba(0, 255, 255, 0.15) 0%, transparent 50%)",
+            "radial-gradient(circle at 70% 60%, rgba(255, 0, 128, 0.15) 0%, transparent 50%)",
+            "radial-gradient(circle at 50% 30%, rgba(255, 255, 0, 0.15) 0%, transparent 50%)",
+            "radial-gradient(circle at 30% 70%, rgba(0, 255, 0, 0.15) 0%, transparent 50%)",
+            "radial-gradient(circle at 30% 40%, rgba(0, 255, 255, 0.15) 0%, transparent 50%)",
+          ]
+        }}
+        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute inset-0 opacity-60"
+      />
 
-            {/* Name */}
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
+      {/* Floating Gaming Particles */}
+      <div className="absolute inset-0 overflow-hidden">
+        {[...Array(60)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute"
+            initial={{
+              x: Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1000),
+              y: Math.random() * (typeof window !== 'undefined' ? window.innerHeight : 1000),
+            }}
+            animate={{
+              y: [null, -100],
+              x: [null, Math.random() * 100 - 50],
+              opacity: [0, 1, 0],
+              scale: [0, Math.random() * 1.5 + 0.5, 0],
+            }}
+            transition={{
+              duration: Math.random() * 8 + 5,
+              repeat: Infinity,
+              delay: Math.random() * 5,
+              ease: "easeOut"
+            }}
+          >
+            <div 
+              className={`w-2 h-2 rounded-full ${
+                i % 4 === 0 ? 'bg-primary' : 
+                i % 4 === 1 ? 'bg-secondary' : 
+                i % 4 === 2 ? 'bg-accent' : 'bg-success'
+              }`}
+              style={{
+                boxShadow: `0 0 15px ${
+                  i % 4 === 0 ? 'var(--primary)' : 
+                  i % 4 === 1 ? 'var(--secondary)' : 
+                  i % 4 === 2 ? 'var(--accent)' : 'var(--success)'
+                }`
+              }}
+            />
+          </motion.div>
+        ))}
+      </div>
+
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          
+          {/* Gaming Text Content */}
+          <motion.div
+            initial={{ opacity: 0, x: -100 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1, delay: 0.3 }}
+            className="text-center lg:text-left order-2 lg:order-1 space-y-8"
+          >
+            {/* Gaming Status HUD */}
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.5 }}
-              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-text-primary leading-tight overflow-hidden"
+              className="flex items-center justify-center lg:justify-start space-x-4 mb-6"
             >
-              <span className="block">Amit</span>
-              <span className="block bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                Adhikary
-              </span>
-            </motion.h1>
-
-            {/* Typing Effect */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.8 }}
-              className="h-10 sm:h-12 flex items-center justify-center lg:justify-start overflow-hidden"
-            >
-              <span className="text-xl sm:text-2xl md:text-3xl font-semibold text-text-secondary truncate">
-                {displayText}
-                <span className="animate-pulse">|</span>
-              </span>
+              <div className="flex items-center space-x-2 text-success text-sm font-orbitron">
+                <div className="w-2 h-2 bg-success rounded-full animate-pulse-neon"></div>
+                <span>SYSTEM ONLINE</span>
+              </div>
+              <div className="text-text-muted">|</div>
+              <div className="flex items-center space-x-2 text-primary text-sm font-orbitron">
+                <Zap size={12} />
+                <span>HIGH PERFORMANCE</span>
+              </div>
             </motion.div>
 
-            {/* Description */}
+            {/* Gaming Greeting */}
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 1 }}
-              className="text-base sm:text-lg text-text-secondary max-w-2xl leading-relaxed mx-auto lg:mx-0"
+              transition={{ duration: 0.8, delay: 0.6 }}
+              className="text-text-secondary font-rajdhani text-lg tracking-wide"
             >
-              Welcome to amitadhikary.com! I'm Amit Adhikary (amitadhikary), a passionate Full Stack Web Developer from India 
-              specializing in React, TypeScript, Python, Django, Node.js, and modern web technologies. 
-              I create robust, scalable solutions that power exceptional digital experiences.
+              Initialize_Connection()
             </motion.p>
 
-            {/* Action Buttons */}
+            {/* 3D Gaming Name */}
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.7 }}
+              className="relative"
+            >
+              <motion.h1
+                className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold font-orbitron leading-tight"
+                animate={{
+                  textShadow: [
+                    "0 0 20px rgba(0, 255, 255, 0.8)",
+                    "0 0 40px rgba(255, 0, 128, 0.8)",
+                    "0 0 20px rgba(255, 255, 0, 0.8)",
+                    "0 0 20px rgba(0, 255, 255, 0.8)",
+                  ]
+                }}
+                transition={{ duration: 4, repeat: Infinity }}
+              >
+                <span className="block text-text-primary neon-text">AMIT</span>
+                <span className="block text-gaming-gradient gaming-heading">ADHIKARY</span>
+              </motion.h1>
+              
+              {/* 3D Holographic overlay */}
+              <motion.div
+                animate={{
+                  background: [
+                    "linear-gradient(45deg, transparent, rgba(0, 255, 255, 0.1), transparent)",
+                    "linear-gradient(135deg, transparent, rgba(255, 0, 128, 0.1), transparent)",
+                    "linear-gradient(225deg, transparent, rgba(255, 255, 0, 0.1), transparent)",
+                    "linear-gradient(315deg, transparent, rgba(0, 255, 255, 0.1), transparent)",
+                  ]
+                }}
+                transition={{ duration: 3, repeat: Infinity }}
+                className="absolute inset-0 opacity-30 rounded-gaming"
+              />
+            </motion.div>
+
+            {/* Gaming Role Typing Effect */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 1.2 }}
-              className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start pt-2"
+              transition={{ duration: 0.8, delay: 1 }}
+              className="h-16 flex items-center justify-center lg:justify-start"
+            >
+              <div className="gaming-panel p-4 backdrop-blur-gaming">
+                <span className="text-2xl sm:text-3xl md:text-4xl font-bold font-orbitron text-gaming-gradient tracking-wider">
+                  {displayText}
+                  <motion.span
+                    animate={{ opacity: [1, 0, 1] }}
+                    transition={{ duration: 1, repeat: Infinity }}
+                    className="text-accent ml-1"
+                  >
+                    |
+                  </motion.span>
+                </span>
+              </div>
+            </motion.div>
+
+            {/* Gaming Description */}
+            <motion.p
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 1.2 }}
+              className="text-lg sm:text-xl text-text-secondary max-w-2xl leading-relaxed mx-auto lg:mx-0 font-rajdhani"
+            >
+              Welcome to the <span className="text-primary font-bold">DIGITAL BATTLEFIELD</span>. 
+              I'm a specialist in crafting high-performance web architectures, 
+              mastering <span className="text-secondary font-bold">React</span>, 
+              <span className="text-accent font-bold"> Python</span>, and 
+              <span className="text-success font-bold"> Node.js</span> to build 
+              next-generation digital experiences.
+            </motion.p>
+
+            {/* Gaming Action Buttons */}
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 1.4 }}
+              className="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start"
             >
               <motion.button
-                onClick={() => scrollToSection('projects')}
-                whileHover={{ scale: 1.05, y: -2 }}
+                whileHover={{ scale: 1.05, rotateY: 5 }}
                 whileTap={{ scale: 0.95 }}
-                className="bg-primary hover:bg-primary/90 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold text-base sm:text-lg transition-all duration-300 flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl group w-full sm:w-auto"
+                className="gaming-btn px-8 py-4 text-lg font-orbitron shadow-gaming-hover transform-style-preserve-3d"
               >
-                <span>View My Work</span>
-                <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform duration-300" />
+                <div className="flex items-center space-x-3">
+                  <Play size={20} />
+                  <span>START MISSION</span>
+                </div>
               </motion.button>
 
-              <motion.button
-                onClick={() => scrollToSection('contact')}
-                whileHover={{ scale: 1.05, y: -2 }}
+              <motion.a
+                href="/assets/images/Amit_Adhikary_resume.pdf"
+                download
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.05, rotateY: -5 }}
                 whileTap={{ scale: 0.95 }}
-                className="border-2 border-primary text-primary hover:bg-primary hover:text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold text-base sm:text-lg transition-all duration-300 flex items-center justify-center space-x-2 group w-full sm:w-auto"
+                className="gaming-btn bg-gradient-to-r from-secondary to-danger px-8 py-4 text-lg font-orbitron shadow-neon-pink transform-style-preserve-3d"
               >
-                <Mail size={18} />
-                <span>Get In Touch</span>
-              </motion.button>
+                <div className="flex items-center space-x-3">
+                  <Download size={20} />
+                  <span>DOWNLOAD DATA</span>
+                </div>
+              </motion.a>
+            </motion.div>
+
+            {/* Gaming Stats HUD */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 1.6 }}
+              className="grid grid-cols-3 gap-4 max-w-md mx-auto lg:mx-0"
+            >
+              {[
+                { label: 'PROJECTS', value: '50+', icon: Code },
+                { label: 'EXPERIENCE', value: '2+', icon: Zap },
+                { label: 'SKILLS', value: '15+', icon: Gamepad2 }
+              ].map((stat, index) => (
+                <motion.div
+                  key={stat.label}
+                  whileHover={{ scale: 1.1, rotateX: 10 }}
+                  className="gaming-card text-center p-4 gaming-card-hover"
+                >
+                  <stat.icon className="w-6 h-6 mx-auto mb-2 text-primary" />
+                  <div className="text-2xl font-bold text-primary font-orbitron">{stat.value}</div>
+                  <div className="text-xs text-text-secondary font-rajdhani tracking-wide">{stat.label}</div>
+                </motion.div>
+              ))}
             </motion.div>
           </motion.div>
 
-          {/* Profile Image */}
+          {/* 3D Gaming Avatar Section */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.8, y: 30 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.4, type: "spring", stiffness: 80 }}
-            className="flex justify-center lg:justify-end order-1 lg:order-2 overflow-hidden"
+            initial={{ opacity: 0, scale: 0.8, rotateY: 180 }}
+            animate={{ opacity: 1, scale: 1, rotateY: 0 }}
+            transition={{ duration: 1.5, delay: 0.5, type: "spring", stiffness: 60 }}
+            className="flex justify-center lg:justify-end order-1 lg:order-2"
           >
-            <div className="relative">
-              {/* Morphing Blob Background */}
-              <motion.div
-                animate={{ 
-                  borderRadius: [
-                    "60% 40% 30% 70%",
-                    "30% 60% 70% 40%", 
-                    "50% 60% 30% 60%",
-                    "60% 40% 30% 70%"
-                  ],
-                  scale: [1, 1.05, 0.98, 1]
-                }}
-                transition={{ 
-                  duration: 12,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-                className="absolute -inset-8 bg-gradient-to-br from-purple-500/25 via-cyan-400/20 to-pink-500/25 blur-2xl"
-              />
+            <div className="relative perspective-1000">
               
-              {/* Pulsing Glow Ring */}
-              <motion.div
-                animate={{ 
-                  scale: [1, 1.15, 1],
-                  opacity: [0.4, 0.7, 0.4]
-                }}
-                transition={{ 
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-                className="absolute -inset-4 bg-gradient-to-r from-blue-400/20 via-purple-500/20 to-cyan-400/20 rounded-full blur-xl"
-              />
-
-              {/* Floating Particles */}
-              <motion.div
-                animate={{ 
-                  x: [0, 15, -10, 0],
-                  y: [0, -20, 10, 0],
-                  opacity: [0.5, 0.8, 0.6, 0.5]
-                }}
-                transition={{ 
-                  duration: 6,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-                className="absolute -top-6 -right-6 w-3 h-3 bg-cyan-400 rounded-full blur-sm"
-              />
-              
-              <motion.div
-                animate={{ 
-                  x: [0, -18, 12, 0],
-                  y: [0, 15, -20, 0],
-                  opacity: [0.4, 0.7, 0.5, 0.4]
-                }}
-                transition={{ 
-                  duration: 8,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: 2
-                }}
-                className="absolute -bottom-6 -left-6 w-2 h-2 bg-pink-400 rounded-full blur-sm"
-              />
-
-              <motion.div
-                animate={{ 
-                  x: [0, 10, -8, 0],
-                  y: [0, -12, 8, 0],
-                  scale: [0.8, 1.2, 0.9, 0.8]
-                }}
-                transition={{ 
-                  duration: 5,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: 3
-                }}
-                className="absolute top-1/3 -right-8 w-2 h-2 bg-purple-400/70 rounded-full"
-              />
-
-              {/* Main Profile Image Container - Elegant Floating */}
+              {/* 3D Gaming Frame */}
               <motion.div
                 animate={{
-                  y: [0, -8, 0],
+                  rotateY: [0, 5, 0, -5, 0],
+                  rotateX: [0, 2, 0, -2, 0],
                 }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-                whileHover={{ 
-                  scale: 1.05,
-                  y: -10,
-                  transition: { type: "spring", stiffness: 300, damping: 20 }
-                }}
-                whileTap={{ scale: 0.98 }}
-                className="relative w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96"
+                transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+                className="relative transform-style-preserve-3d"
               >
-                {/* Gradient Border with Subtle Animation */}
-                <motion.div 
-                  animate={{ 
-                    background: [
-                      "linear-gradient(0deg, #8b5cf6, #06b6d4, #ec4899)",
-                      "linear-gradient(72deg, #06b6d4, #ec4899, #8b5cf6)",
-                      "linear-gradient(144deg, #ec4899, #8b5cf6, #06b6d4)",
-                      "linear-gradient(216deg, #8b5cf6, #06b6d4, #ec4899)",
-                      "linear-gradient(288deg, #06b6d4, #ec4899, #8b5cf6)",
-                      "linear-gradient(360deg, #ec4899, #8b5cf6, #06b6d4)"
+                {/* Holographic Container */}
+                <motion.div
+                  animate={{
+                    boxShadow: [
+                      "0 0 40px rgba(0, 255, 255, 0.6), 0 0 80px rgba(0, 255, 255, 0.3), inset 0 0 40px rgba(0, 255, 255, 0.1)",
+                      "0 0 60px rgba(255, 0, 128, 0.6), 0 0 120px rgba(255, 0, 128, 0.3), inset 0 0 60px rgba(255, 0, 128, 0.1)",
+                      "0 0 40px rgba(255, 255, 0, 0.6), 0 0 80px rgba(255, 255, 0, 0.3), inset 0 0 40px rgba(255, 255, 0, 0.1)",
+                      "0 0 40px rgba(0, 255, 255, 0.6), 0 0 80px rgba(0, 255, 255, 0.3), inset 0 0 40px rgba(0, 255, 255, 0.1)",
                     ]
                   }}
-                  transition={{ 
-                    duration: 10,
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                  }}
-                  className="absolute inset-0 rounded-full p-1"
+                  transition={{ duration: 4, repeat: Infinity }}
+                  className="w-80 h-80 sm:w-96 sm:h-96 rounded-gaming-lg border-4 border-primary/50 relative overflow-hidden gaming-panel backdrop-blur-gaming"
                 >
-                  <div className="w-full h-full bg-bg-primary rounded-full p-3 sm:p-4 relative overflow-hidden">
-                    {/* Image with Professional Hover Effect */}
-                    <motion.img
-                      src={`${process.env.PUBLIC_URL}/assets/images/Pi7_Passport_Photo_v2.jpeg`}
-                      alt="Amit Adhikary"
-                      whileHover={{ 
-                        scale: 1.02,
-                        filter: "brightness(1.05) saturate(1.1)"
-                      }}
-                      transition={{ duration: 0.3 }}
-                      className="w-full h-full object-cover rounded-full shadow-2xl"
-                    />
+                  
+                  {/* Avatar Image */}
+                  <motion.img
+                    src={`${process.env.PUBLIC_URL}/assets/images/Pi7_Passport_Photo_v2.jpeg`}
+                    alt="Amit Adhikary"
+                    className="w-full h-full object-cover rounded-gaming"
+                    animate={{
+                      filter: [
+                        "hue-rotate(0deg) brightness(1.1)",
+                        "hue-rotate(30deg) brightness(1.2)",
+                        "hue-rotate(0deg) brightness(1.1)",
+                      ]
+                    }}
+                    transition={{ duration: 6, repeat: Infinity }}
+                  />
+                  
+                  {/* Holographic Overlay */}
+                  <motion.div
+                    animate={{
+                      background: [
+                        "linear-gradient(45deg, transparent 30%, rgba(0, 255, 255, 0.2) 50%, transparent 70%)",
+                        "linear-gradient(135deg, transparent 30%, rgba(255, 0, 128, 0.2) 50%, transparent 70%)",
+                        "linear-gradient(225deg, transparent 30%, rgba(255, 255, 0, 0.2) 50%, transparent 70%)",
+                        "linear-gradient(315deg, transparent 30%, rgba(0, 255, 255, 0.2) 50%, transparent 70%)",
+                      ]
+                    }}
+                    transition={{ duration: 3, repeat: Infinity }}
+                    className="absolute inset-0 opacity-60"
+                  />
+
+                  {/* Gaming HUD Overlay */}
+                  <div className="absolute inset-0 border-2 border-primary/30 rounded-gaming">
+                    {/* Corner HUD Elements */}
+                    <div className="absolute top-2 left-2 w-6 h-6 border-l-2 border-t-2 border-primary"></div>
+                    <div className="absolute top-2 right-2 w-6 h-6 border-r-2 border-t-2 border-primary"></div>
+                    <div className="absolute bottom-2 left-2 w-6 h-6 border-l-2 border-b-2 border-primary"></div>
+                    <div className="absolute bottom-2 right-2 w-6 h-6 border-r-2 border-b-2 border-primary"></div>
                     
-                    {/* Subtle Overlay Glow Effect */}
-                    <motion.div
-                      animate={{ 
-                        opacity: [0, 0.15, 0]
-                      }}
-                      transition={{ 
-                        duration: 3,
-                        repeat: Infinity,
-                        ease: "easeInOut"
-                      }}
-                      className="absolute inset-0 bg-gradient-to-br from-purple-400/10 via-cyan-400/10 to-pink-400/10 rounded-full"
-                    />
+                    {/* Status Bar */}
+                    <div className="absolute bottom-4 left-4 right-4 bg-bg-primary/80 backdrop-blur-sm rounded p-2">
+                      <div className="flex justify-between text-xs font-orbitron">
+                        <span className="text-success">STATUS: ONLINE</span>
+                        <span className="text-primary">LVL: EXPERT</span>
+                      </div>
+                    </div>
                   </div>
                 </motion.div>
 
-                {/* Professional Floating Tech Icons */}
-                <motion.div
-                  animate={{ 
-                    y: [-8, 8, -8],
-                    scale: [1, 1.05, 1]
-                  }}
-                  transition={{ 
-                    duration: 3, 
-                    repeat: Infinity, 
-                    ease: "easeInOut"
-                  }}
-                  whileHover={{ 
-                    scale: 1.2,
-                    y: -15,
-                    transition: { duration: 0.3 }
-                  }}
-                  className="absolute -top-4 -right-4 sm:-top-6 sm:-right-6 w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-purple-500 to-cyan-400 rounded-2xl flex items-center justify-center text-white text-xl sm:text-2xl font-bold shadow-lg cursor-pointer"
-                >
-                  💻
-                </motion.div>
-
-                <motion.div
-                  animate={{ 
-                    y: [8, -8, 8],
-                    scale: [1, 1.05, 1]
-                  }}
-                  transition={{ 
-                    duration: 4, 
-                    repeat: Infinity, 
-                    ease: "easeInOut",
-                    delay: 1
-                  }}
-                  whileHover={{ 
-                    scale: 1.2,
-                    y: -15,
-                    transition: { duration: 0.3 }
-                  }}
-                  className="absolute -bottom-4 -left-4 sm:-bottom-6 sm:-left-6 w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-pink-500 to-purple-500 rounded-2xl flex items-center justify-center text-white text-xl sm:text-2xl font-bold shadow-lg cursor-pointer"
-                >
-                  🚀
-                </motion.div>
-
-                <motion.div
-                  animate={{ 
-                    x: [8, -8, 8],
-                    y: [5, -5, 5],
-                    scale: [0.9, 1.1, 0.9]
-                  }}
-                  transition={{ 
-                    duration: 5, 
-                    repeat: Infinity, 
-                    ease: "easeInOut",
-                    delay: 2
-                  }}
-                  whileHover={{ 
-                    scale: 1.3,
-                    y: -10,
-                    transition: { duration: 0.3 }
-                  }}
-                  className="absolute top-1/2 -right-6 sm:-right-8 w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-cyan-400/90 to-blue-500/90 rounded-full flex items-center justify-center text-white text-lg sm:text-xl font-bold shadow-lg cursor-pointer backdrop-blur-sm"
-                >
-                  ⚡
-                </motion.div>
+                {/* 3D Floating Gaming Icons */}
+                {[
+                  { icon: '⚡', color: 'primary', delay: 0 },
+                  { icon: '🚀', color: 'secondary', delay: 1 },
+                  { icon: '💎', color: 'accent', delay: 2 },
+                  { icon: '🎯', color: 'success', delay: 3 },
+                ].map((item, index) => (
+                  <motion.div
+                    key={index}
+                    animate={{
+                      y: [0, -20, 0],
+                      rotateY: [0, 180, 360],
+                      rotateX: [0, 90, 0],
+                    }}
+                    transition={{
+                      duration: 4 + index,
+                      repeat: Infinity,
+                      delay: item.delay,
+                      ease: "easeInOut"
+                    }}
+                    className={`absolute text-2xl z-20 transform-style-preserve-3d`}
+                    style={{
+                      top: `${20 + index * 15}%`,
+                      left: index % 2 === 0 ? '-10%' : '110%',
+                      filter: `drop-shadow(0 0 10px var(--${item.color}))`
+                    }}
+                  >
+                    {item.icon}
+                  </motion.div>
+                ))}
               </motion.div>
             </div>
           </motion.div>
         </div>
       </div>
 
-      {/* Scroll Indicator */}
-      <div className="absolute bottom-4 sm:bottom-8 left-0 right-0 flex justify-center">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 1.5 }}
-        >
-          <motion.button
-            onClick={() => scrollToSection('about')}
-            animate={{ y: [0, 10, 0] }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-            className="text-text-secondary hover:text-primary transition-colors duration-300 p-2 flex items-center justify-center"
-          >
-            <ChevronDown size={28} className="sm:w-8 sm:h-8" />
-          </motion.button>
-        </motion.div>
+      {/* Gaming HUD Elements */}
+      <div className="absolute top-6 left-6 text-xs font-orbitron text-primary/70 space-y-1">
+        <div>{'<SYSTEM_INIT>'}</div>
+        <div>USER: AMIT_ADHIKARY</div>
+        <div>ROLE: FULL_STACK_DEV</div>
+        <div>{'</SYSTEM_INIT>'}</div>
       </div>
+
+      <div className="absolute top-6 right-6 text-xs font-orbitron text-secondary/70 space-y-1 text-right">
+        <div>PERFORMANCE: 100%</div>
+        <div>UPTIME: 24/7</div>
+        <div>PING: &lt;1ms</div>
+        <div>STATUS: READY</div>
+      </div>
+
+      {/* Gaming Corner Decorations */}
+      <motion.div
+        animate={{ rotate: 360 }}
+        transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+        className="absolute bottom-8 left-8 w-16 h-16 border-2 border-accent/30 rounded-full"
+        style={{ filter: "drop-shadow(0 0 10px var(--accent))" }}
+      />
+
+      <motion.div
+        animate={{ rotate: -360 }}
+        transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+        className="absolute bottom-8 right-8 w-20 h-20 border border-success/30 rounded-full"
+        style={{ filter: "drop-shadow(0 0 8px var(--success))" }}
+      />
     </section>
   );
 };
