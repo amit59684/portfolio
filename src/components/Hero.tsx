@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Download, Play, Gamepad2, Code, Zap } from 'lucide-react';
+import { Gamepad2, Code, Zap } from 'lucide-react';
 
 const Hero: React.FC = () => {
   const [displayText, setDisplayText] = useState('');
@@ -39,13 +39,6 @@ const Hero: React.FC = () => {
 
     return () => clearTimeout(timeout);
   }, [displayText, isDeleting, currentIndex, titles]);
-
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
 
   return (
     <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
@@ -212,58 +205,25 @@ const Hero: React.FC = () => {
               transition={{ duration: 0.8, delay: 1.2 }}
               className="text-lg sm:text-xl text-text-secondary max-w-2xl leading-relaxed mx-auto lg:mx-0 font-rajdhani"
             >
-              Welcome to the <span className="text-primary font-bold">DIGITAL BATTLEFIELD</span>. 
-              I'm a specialist in crafting high-performance web architectures, 
-              mastering <span className="text-secondary font-bold">React</span>, 
+              Passionate <span className="text-primary font-bold">Full Stack Developer</span> with expertise in modern web technologies. 
+              I specialize in building scalable applications using <span className="text-secondary font-bold">React</span>, 
               <span className="text-accent font-bold"> Python</span>, and 
-              <span className="text-success font-bold"> Node.js</span> to build 
-              next-generation digital experiences.
+              <span className="text-success font-bold"> Node.js</span>. 
+              From concept to deployment, I deliver robust solutions that exceed expectations.
             </motion.p>
 
-            {/* Gaming Action Buttons */}
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 1.4 }}
-              className="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start"
-            >
-              <motion.button
-                whileHover={{ scale: 1.05, rotateY: 5 }}
-                whileTap={{ scale: 0.95 }}
-                className="gaming-btn px-8 py-4 text-lg font-orbitron shadow-gaming-hover transform-style-preserve-3d"
-              >
-                <div className="flex items-center space-x-3">
-                  <Play size={20} />
-                  <span>START MISSION</span>
-                </div>
-              </motion.button>
 
-              <motion.a
-                href="/assets/images/Amit_Adhikary_resume.pdf"
-                download
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.05, rotateY: -5 }}
-                whileTap={{ scale: 0.95 }}
-                className="gaming-btn bg-gradient-to-r from-secondary to-danger px-8 py-4 text-lg font-orbitron shadow-neon-pink transform-style-preserve-3d"
-              >
-                <div className="flex items-center space-x-3">
-                  <Download size={20} />
-                  <span>DOWNLOAD DATA</span>
-                </div>
-              </motion.a>
-            </motion.div>
 
             {/* Gaming Stats HUD */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 1.6 }}
+              transition={{ duration: 0.8, delay: 1.4 }}
               className="grid grid-cols-3 gap-4 max-w-md mx-auto lg:mx-0"
             >
               {[
                 { label: 'PROJECTS', value: '50+', icon: Code },
-                { label: 'EXPERIENCE', value: '2+', icon: Zap },
+                { label: 'EXPERIENCE', value: '4+', icon: Zap },
                 { label: 'SKILLS', value: '15+', icon: Gamepad2 }
               ].map((stat, index) => (
                 <motion.div
