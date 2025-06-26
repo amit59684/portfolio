@@ -234,7 +234,6 @@ Custom responsive features:
 ## 📞 Contact Information
 
 - **Email**: amitadhikary59684@gmail.com
-- **Phone**: +91 8145705383
 - **GitHub**: [github.com/amit59684](https://github.com/amit59684)
 - **LinkedIn**: [linkedin.com/in/amit-adhikary-4394b8167](https://www.linkedin.com/in/amit-adhikary-4394b8167/)
 - **LeetCode**: [leetcode.com/u/amitadhikary](https://leetcode.com/u/amitadhikary/)
