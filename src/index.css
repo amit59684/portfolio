@@ -144,20 +144,3 @@ section {
 [data-framer-motion] {
   max-width: 100%;
 }
-
-/* Custom cursor for desktop users */
-@media (min-width: 1024px) and (hover: hover) {
-  * {
-    cursor: none !important;
-  }
-  
-  /* Allow pointer cursor for clickable elements */
-  a, button, [role="button"], input, textarea, select {
-    cursor: pointer !important;
-  }
-  
-  /* Special handling for interactive elements */
-  .cursor-pointer {
-    cursor: pointer !important;
-  }
-}

@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Mail, ChevronDown } from 'lucide-react';
-import { useSoundContext } from '../context/SoundContext';
 
 const Hero: React.FC = () => {
   const [displayText, setDisplayText] = useState('');
   const [currentTitleIndex, setCurrentTitleIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
-  const { playTypingSound } = useSoundContext();
 
   const titles = [
     'Full Stack Developer',
@@ -25,7 +23,6 @@ const Hero: React.FC = () => {
     if (isDeleting) {
       timeout = setTimeout(() => {
         setDisplayText(currentTitle.substring(0, displayText.length - 1));
-        playTypingSound(); // Play sound when deleting
         if (displayText === '') {
           setIsDeleting(false);
           setCurrentTitleIndex((prev) => (prev + 1) % titles.length);
@@ -34,7 +31,6 @@ const Hero: React.FC = () => {
     } else {
       timeout = setTimeout(() => {
         setDisplayText(currentTitle.substring(0, displayText.length + 1));
-        playTypingSound(); // Play sound when typing
         if (displayText === currentTitle) {
           setTimeout(() => setIsDeleting(true), 2000);
         }
@@ -42,7 +38,7 @@ const Hero: React.FC = () => {
     }
 
     return () => clearTimeout(timeout);
-  }, [displayText, currentTitleIndex, isDeleting, titles, playTypingSound]);
+  }, [displayText, currentTitleIndex, isDeleting, titles]);
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);

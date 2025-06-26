@@ -1,33 +1,10 @@
 import React, { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { Award, Clock, Star, Trophy, Zap, Target } from 'lucide-react';
+import { Award, Star, Calendar, Clock, Zap } from 'lucide-react';
 
 const Certifications: React.FC = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-
-  const comingSoonFeatures = [
-    {
-      icon: <Award size={32} />,
-      title: "Professional Certifications",
-      description: "Industry-recognized certifications in cloud computing, web development, and software engineering"
-    },
-    {
-      icon: <Trophy size={32} />,
-      title: "Achievements & Awards",
-      description: "Recognition for outstanding performance in coding competitions and project developments"
-    },
-    {
-      icon: <Star size={32} />,
-      title: "Skill Endorsements",
-      description: "Verified expertise in various programming languages and development frameworks"
-    },
-    {
-      icon: <Target size={32} />,
-      title: "Learning Milestones",
-      description: "Key educational achievements and completed learning paths in technology"
-    }
-  ];
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -49,9 +26,32 @@ const Certifications: React.FC = () => {
     }
   };
 
+  const placeholderCertifications = [
+    {
+      icon: '🏆',
+      title: 'Professional Certifications',
+      description: 'Industry-recognized certifications in web development and programming'
+    },
+    {
+      icon: '⭐',
+      title: 'Achievement Awards',
+      description: 'Recognition for outstanding performance and contributions'
+    },
+    {
+      icon: '🎖️',
+      title: 'Course Completions',
+      description: 'Specialized courses and training programs completed'
+    },
+    {
+      icon: '🚀',
+      title: 'Project Milestones',
+      description: 'Major project achievements and successful deliveries'
+    }
+  ];
+
   return (
     <section id="certifications" className="py-16 sm:py-20 lg:py-32 relative">
-      {/* Animated Background */}
+      {/* Background decorative elements */}
       <div className="absolute inset-0 overflow-hidden">
         <motion.div
           animate={{ 
@@ -67,13 +67,15 @@ const Certifications: React.FC = () => {
         <motion.div
           animate={{ 
             rotate: -360,
-            y: [0, -30, 0]
+            x: [0, 30, 0],
+            y: [0, -20, 0]
           }}
           transition={{ 
             rotate: { duration: 40, repeat: Infinity, ease: "linear" },
-            y: { duration: 12, repeat: Infinity, ease: "easeInOut" }
+            x: { duration: 12, repeat: Infinity, ease: "easeInOut" },
+            y: { duration: 10, repeat: Infinity, ease: "easeInOut" }
           }}
-          className="absolute bottom-1/4 left-10 w-48 h-48 sm:w-72 sm:h-72 bg-gradient-to-tr from-secondary/3 to-primary/3 rounded-full blur-3xl"
+          className="absolute bottom-1/4 left-10 w-48 h-48 sm:w-64 sm:h-64 bg-gradient-to-bl from-secondary/3 to-primary/3 rounded-full blur-3xl"
         />
       </div>
 
@@ -90,7 +92,7 @@ const Certifications: React.FC = () => {
             variants={itemVariants}
             className="inline-block px-3 sm:px-4 py-2 bg-secondary/10 text-secondary rounded-full text-xs sm:text-sm font-semibold mb-3 sm:mb-4 border border-secondary/20"
           >
-            Excellence & Recognition
+            Recognition & Excellence
           </motion.span>
           
           <motion.h2
@@ -102,9 +104,9 @@ const Certifications: React.FC = () => {
           
           <motion.p
             variants={itemVariants}
-            className="text-base sm:text-lg text-text-secondary max-w-3xl mx-auto leading-relaxed px-4"
+            className="text-base sm:text-lg text-text-secondary max-w-3xl mx-auto leading-relaxed"
           >
-            A showcase of professional certifications, awards, and milestones in my development journey
+            A showcase of professional certifications, achievements, and milestones in my development journey
           </motion.p>
         </motion.div>
 
@@ -116,96 +118,59 @@ const Certifications: React.FC = () => {
           className="relative"
         >
           {/* Main Coming Soon Card */}
-          <div className="bg-gradient-to-br from-bg-card/50 to-bg-card/30 backdrop-blur-lg border border-border-color rounded-3xl p-8 sm:p-12 lg:p-16 text-center relative overflow-hidden">
-            {/* Background Effects */}
+          <div className="bg-gradient-to-br from-bg-card/50 to-bg-card/30 backdrop-blur-lg border border-border-color rounded-3xl p-8 lg:p-12 relative overflow-hidden">
+            {/* Background glow */}
             <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-secondary/5 rounded-3xl" />
             
-            {/* Floating Icons */}
-            <motion.div
-              animate={{ 
-                y: [-20, 20, -20],
-                rotate: [0, 360, 0]
-              }}
-              transition={{ 
-                duration: 8,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-              className="absolute top-8 left-8 text-primary/30"
-            >
-              <Award size={40} />
-            </motion.div>
-            
-            <motion.div
-              animate={{ 
-                y: [20, -20, 20],
-                rotate: [0, -360, 0]
-              }}
-              transition={{ 
-                duration: 10,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: 2
-              }}
-              className="absolute top-8 right-8 text-secondary/30"
-            >
-              <Trophy size={40} />
-            </motion.div>
+            {/* Floating particles */}
+            <div className="absolute inset-0 overflow-hidden rounded-3xl">
+              {[...Array(15)].map((_, i) => (
+                <motion.div
+                  key={i}
+                  className="absolute w-1 h-1 bg-primary/20 rounded-full"
+                  initial={{
+                    x: Math.random() * 100 + '%',
+                    y: Math.random() * 100 + '%',
+                    scale: 0,
+                  }}
+                  animate={{
+                    y: [null, '-20px'],
+                    scale: [0, 1, 0],
+                    opacity: [0, 0.8, 0],
+                  }}
+                  transition={{
+                    duration: Math.random() * 3 + 3,
+                    repeat: Infinity,
+                    delay: Math.random() * 2,
+                    ease: "easeOut"
+                  }}
+                />
+              ))}
+            </div>
 
-            <motion.div
-              animate={{ 
-                x: [-15, 15, -15],
-                scale: [1, 1.2, 1]
-              }}
-              transition={{ 
-                duration: 6,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: 4
-              }}
-              className="absolute bottom-8 left-1/4 text-primary/20"
-            >
-              <Star size={35} />
-            </motion.div>
-
-            <motion.div
-              animate={{ 
-                x: [15, -15, 15],
-                scale: [1.2, 1, 1.2]
-              }}
-              transition={{ 
-                duration: 7,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: 1
-              }}
-              className="absolute bottom-8 right-1/4 text-secondary/20"
-            >
-              <Zap size={35} />
-            </motion.div>
-
-            {/* Main Content */}
-            <div className="relative z-10">
-              {/* Clock Icon with Animation */}
+            <div className="relative z-10 text-center">
+              {/* Main Icon */}
               <motion.div
                 animate={{ 
-                  rotate: [0, 360],
-                  scale: [1, 1.1, 1]
+                  scale: [1, 1.1, 1],
+                  rotate: [0, 5, -5, 0]
                 }}
                 transition={{ 
-                  rotate: { duration: 20, repeat: Infinity, ease: "linear" },
-                  scale: { duration: 3, repeat: Infinity, ease: "easeInOut" }
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut"
                 }}
-                className="w-20 h-20 sm:w-24 sm:h-24 mx-auto mb-6 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center shadow-lg"
+                className="w-24 h-24 mx-auto mb-8 bg-gradient-to-br from-primary to-secondary rounded-3xl flex items-center justify-center shadow-2xl"
               >
-                <Clock size={40} className="text-white" />
+                <Award className="text-white" size={40} />
               </motion.div>
 
+              {/* Coming Soon Text */}
               <motion.h3
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.6, delay: 0.5 }}
-                className="text-2xl sm:text-3xl md:text-4xl font-bold text-text-primary mb-4"
+                transition={{ delay: 0.5 }}
+                className="text-4xl md:text-5xl font-bold text-text-primary mb-4"
               >
                 Coming Soon
               </motion.h3>
@@ -213,57 +178,53 @@ const Certifications: React.FC = () => {
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.6, delay: 0.7 }}
-                className="text-lg sm:text-xl text-text-secondary mb-8 max-w-2xl mx-auto"
+                transition={{ delay: 0.7 }}
+                className="text-xl text-text-secondary mb-8 max-w-2xl mx-auto"
               >
-                I'm currently working on obtaining industry certifications and documenting my achievements. 
-                This section will showcase my professional credentials and milestones.
+                This section will showcase my professional certifications, achievements, and milestones. 
+                Stay tuned for updates!
               </motion.p>
 
               {/* Progress Indicator */}
               <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                transition={{ duration: 0.6, delay: 0.9 }}
-                className="mb-8"
+                initial={{ opacity: 0 }}
+                animate={isInView ? { opacity: 1 } : {}}
+                transition={{ delay: 1 }}
+                className="flex items-center justify-center space-x-2 mb-8"
               >
-                <div className="flex items-center justify-center space-x-2 mb-3">
-                  <span className="text-text-secondary font-medium">Progress</span>
-                  <motion.span
-                    animate={{ opacity: [0.5, 1, 0.5] }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                    className="text-primary font-bold"
-                  >
-                    25%
-                  </motion.span>
-                </div>
-                <div className="w-full max-w-md mx-auto h-2 bg-bg-secondary rounded-full overflow-hidden">
-                  <motion.div
-                    initial={{ width: 0 }}
-                    animate={isInView ? { width: "25%" } : {}}
-                    transition={{ duration: 2, delay: 1.2 }}
-                    className="h-full bg-gradient-to-r from-primary to-secondary rounded-full relative overflow-hidden"
-                  >
-                    <motion.div
-                      animate={{ x: [-20, 100] }}
-                      transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
-                      className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-12"
-                    />
-                  </motion.div>
-                </div>
+                <Clock className="text-primary" size={20} />
+                <span className="text-text-secondary font-medium">In Development</span>
               </motion.div>
 
-              {/* Notification */}
+              {/* Animated Progress Bar */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                transition={{ delay: 1.2 }}
+                className="w-64 h-2 bg-bg-secondary rounded-full mx-auto mb-8 overflow-hidden"
+              >
+                <motion.div
+                  className="h-full bg-gradient-to-r from-primary to-secondary"
+                  initial={{ width: 0 }}
+                  animate={{ width: "75%" }}
+                  transition={{ delay: 1.5, duration: 2, ease: "easeOut" }}
+                />
+              </motion.div>
+
+              {/* CTA Button */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.6, delay: 1.1 }}
-                className="bg-primary/10 border border-primary/20 rounded-xl p-4 max-w-md mx-auto"
+                transition={{ delay: 1.5 }}
               >
-                <p className="text-primary text-sm font-medium">
-                  📧 Want to be notified when this section launches? 
-                  <span className="block mt-1">Check back soon for updates!</span>
-                </p>
+                <motion.button
+                  whileHover={{ scale: 1.05, y: -2 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="bg-gradient-to-r from-primary to-secondary text-white px-8 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 flex items-center space-x-2 mx-auto"
+                >
+                  <Zap size={20} />
+                  <span>Stay Updated</span>
+                </motion.button>
               </motion.div>
             </div>
           </div>
@@ -272,35 +233,73 @@ const Certifications: React.FC = () => {
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 1.3 }}
+            transition={{ delay: 0.8 }}
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-12"
           >
-            {comingSoonFeatures.map((feature, index) => (
+            {placeholderCertifications.map((cert, index) => (
               <motion.div
-                key={feature.title}
+                key={cert.title}
+                initial={{ opacity: 0, y: 30 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ delay: 1 + (index * 0.1) }}
                 whileHover={{ y: -5, scale: 1.02 }}
-                transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                className="bg-bg-card/40 backdrop-blur-sm border border-border-color rounded-xl p-6 text-center hover:border-primary/50 transition-all duration-300 group relative overflow-hidden"
+                className="bg-gradient-to-br from-bg-card/40 to-bg-card/20 backdrop-blur-sm border border-border-color rounded-2xl p-6 text-center hover:border-primary/50 transition-all duration-300 group"
               >
-                {/* Background glow */}
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl" />
-                
                 <motion.div
-                  whileHover={{ scale: 1.1, rotate: 5 }}
-                  className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-xl flex items-center justify-center text-primary group-hover:text-secondary transition-colors duration-300 relative z-10"
+                  animate={{ 
+                    scale: [1, 1.1, 1],
+                  }}
+                  transition={{ 
+                    duration: 3,
+                    repeat: Infinity,
+                    delay: index * 0.5
+                  }}
+                  className="text-4xl mb-4"
                 >
-                  {feature.icon}
+                  {cert.icon}
                 </motion.div>
                 
-                <h4 className="font-bold text-text-primary mb-2 group-hover:text-primary transition-colors duration-300 relative z-10">
-                  {feature.title}
+                <h4 className="font-bold text-text-primary mb-2 group-hover:text-primary transition-colors duration-300">
+                  {cert.title}
                 </h4>
                 
-                <p className="text-text-secondary text-sm leading-relaxed relative z-10">
-                  {feature.description}
+                <p className="text-text-secondary text-sm">
+                  {cert.description}
                 </p>
+
+                {/* Coming Soon Badge */}
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ delay: 1.5 + (index * 0.1) }}
+                  className="mt-4 inline-block px-3 py-1 bg-primary/10 text-primary text-xs font-semibold rounded-full border border-primary/20"
+                >
+                  Coming Soon
+                </motion.div>
               </motion.div>
             ))}
+          </motion.div>
+        </motion.div>
+
+        {/* Bottom decorative element */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0 }}
+          animate={isInView ? { opacity: 1, scale: 1 } : {}}
+          transition={{ delay: 2 }}
+          className="flex justify-center mt-16"
+        >
+          <motion.div
+            animate={{ 
+              rotate: 360,
+            }}
+            transition={{ 
+              duration: 20,
+              repeat: Infinity,
+              ease: "linear"
+            }}
+            className="w-16 h-16 border-2 border-primary/30 rounded-full flex items-center justify-center"
+          >
+            <Star className="text-primary/50" size={24} />
           </motion.div>
         </motion.div>
       </div>
