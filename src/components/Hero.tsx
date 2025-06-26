@@ -299,28 +299,7 @@ const Hero: React.FC = () => {
           </motion.div>
         </div>
 
-        {/* Gaming Scroll Indicator */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 2 }}
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-        >
-          <motion.div
-            animate={{ y: [0, 10, 0] }}
-            transition={{ duration: 2, repeat: Infinity }}
-            className="text-center text-neon-cyan"
-          >
-            <div className="w-6 h-10 border-2 border-neon-cyan rounded-full flex justify-center">
-              <motion.div
-                animate={{ y: [0, 12, 0] }}
-                transition={{ duration: 1.5, repeat: Infinity }}
-                className="w-1 h-3 bg-neon-cyan rounded-full mt-2"
-              />
-            </div>
-            <p className="text-xs mt-2 font-mono">SCROLL TO EXPLORE</p>
-          </motion.div>
-        </motion.div>
+       
       </div>
     </section>
   );

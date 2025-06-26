@@ -45,10 +45,8 @@ const Navbar: React.FC = () => {
   }, [navItems]);
 
   const scrollToSection = (sectionId: string) => {
-    // Close mobile menu first
     setIsMobileMenuOpen(false);
     
-    // Small delay to allow menu to close
     setTimeout(() => {
       const element = document.getElementById(sectionId);
       if (element) {
@@ -65,33 +63,48 @@ const Navbar: React.FC = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
+  // Bulletproof inline styles to ensure navbar is always visible
+  const navbarContainerStyle: React.CSSProperties = {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    right: 0,
+    width: '100%',
+    zIndex: 999999,
+    display: 'block',
+    visibility: 'visible',
+    opacity: 1,
+    transform: 'none',
+    pointerEvents: 'auto',
+    boxSizing: 'border-box'
+  };
+
+  const navbarStyle: React.CSSProperties = {
+    width: '100%',
+    transition: 'all 0.3s ease',
+    background: isScrolled 
+      ? 'linear-gradient(145deg, rgba(0, 255, 255, 0.1), rgba(139, 92, 246, 0.1))'
+      : 'rgba(0, 0, 0, 0.2)',
+    backdropFilter: 'blur(15px)',
+    borderBottom: isScrolled ? '1px solid rgba(0, 255, 255, 0.3)' : 'none',
+    boxShadow: isScrolled ? '0 8px 32px rgba(0, 255, 255, 0.3)' : 'none',
+    position: 'relative',
+    display: 'block',
+    visibility: 'visible',
+    opacity: 1,
+    transform: 'none'
+  };
+
   return (
-    <div
-      className="fixed top-0 left-0 right-0 w-full transition-all duration-300"
-      style={{ 
-        zIndex: 99999,
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        display: 'block',
-        visibility: 'visible',
-        opacity: 1
-      }}
-    >
-      <nav
-        className={`w-full transition-all duration-300 ${
-          isScrolled 
-            ? 'gaming-card border-b border-neon-cyan/30 shadow-cyber' 
-            : 'bg-black/20 backdrop-blur-sm'
-        }`}
-      >
+    <div style={navbarContainerStyle}>
+      <nav style={navbarStyle}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            {/* Animated Name Logo */}
+            {/* Logo */}
             <div
               onClick={() => scrollToSection('home')}
-              className="flex-shrink-0 cursor-pointer hover:scale-105 transition-transform duration-200"
+              className="flex-shrink-0 cursor-pointer"
+              style={{ transform: 'none' }}
             >
               <div className="flex items-center space-x-1">
                 {/* First Name - Amit */}
@@ -99,22 +112,23 @@ const Navbar: React.FC = () => {
                   {"Amit".split("").map((letter, index) => (
                     <span
                       key={`amit-${index}`}
-                      className="text-xl sm:text-2xl font-bold text-text-primary hover:text-neon-cyan transition-colors duration-300 hover:scale-110 inline-block"
+                      className="text-xl sm:text-2xl font-bold text-white hover:text-cyan-400 transition-colors duration-300"
+                      style={{ transform: 'none' }}
                     >
                       {letter}
                     </span>
                   ))}
                 </div>
                 
-                {/* Space */}
-                <span className="text-xl sm:text-2xl font-bold text-text-primary">&nbsp;</span>
+                <span className="text-xl sm:text-2xl font-bold text-white">&nbsp;</span>
                 
                 {/* Last Name - Adhikary */}
                 <div className="flex">
                   {"Adhikary".split("").map((letter, index) => (
                     <span
                       key={`adhikary-${index}`}
-                      className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent hover:from-secondary hover:to-primary transition-all duration-300 hover:scale-110 inline-block"
+                      className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent"
+                      style={{ transform: 'none' }}
                     >
                       {letter}
                     </span>
@@ -122,8 +136,11 @@ const Navbar: React.FC = () => {
                 </div>
               </div>
               
-              {/* Animated underline */}
-              <div className="h-0.5 bg-gradient-to-r from-primary to-secondary rounded-full mt-1 w-full" />
+              {/* Underline */}
+              <div 
+                className="h-0.5 bg-gradient-to-r from-cyan-400 to-purple-500 rounded-full mt-1 w-full"
+                style={{ transform: 'none' }}
+              />
             </div>
 
             {/* Desktop Navigation */}
@@ -133,15 +150,19 @@ const Navbar: React.FC = () => {
                   <button
                     key={item.id}
                     onClick={() => scrollToSection(item.id)}
-                    className={`px-3 py-2 text-sm font-medium transition-all duration-300 relative hover:scale-105 ${
+                    className={`px-3 py-2 text-sm font-medium transition-all duration-300 relative ${
                       activeSection === item.id
-                        ? 'text-primary'
-                        : 'text-text-secondary hover:text-text-primary'
+                        ? 'text-cyan-400'
+                        : 'text-gray-300 hover:text-white'
                     }`}
+                    style={{ transform: 'none' }}
                   >
                     {item.label}
                     {activeSection === item.id && (
-                      <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary rounded-full" />
+                      <div 
+                        className="absolute bottom-0 left-0 right-0 h-0.5 bg-cyan-400 rounded-full"
+                        style={{ transform: 'none' }}
+                      />
                     )}
                   </button>
                 ))}
@@ -152,7 +173,8 @@ const Navbar: React.FC = () => {
                   download
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 flex items-center space-x-2 shadow-lg hover:shadow-xl hover:scale-105"
+                  className="bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-600 hover:to-purple-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 flex items-center space-x-2 shadow-lg"
+                  style={{ transform: 'none' }}
                 >
                   <Download size={16} />
                   <span>Resume</span>
@@ -164,8 +186,9 @@ const Navbar: React.FC = () => {
             <div className="md:hidden">
               <button
                 onClick={handleMobileMenuToggle}
-                className="relative bg-bg-secondary p-2 rounded-lg text-text-primary hover:text-primary transition-colors duration-300 touch-manipulation hover:scale-105"
+                className="relative bg-gray-800 p-2 rounded-lg text-white hover:text-cyan-400 transition-colors duration-300"
                 aria-label="Toggle mobile menu"
+                style={{ transform: 'none' }}
               >
                 {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
               </button>
@@ -175,17 +198,25 @@ const Navbar: React.FC = () => {
 
         {/* Mobile Navigation */}
         {isMobileMenuOpen && (
-          <div className="md:hidden bg-bg-card/95 backdrop-blur-md border-t border-border-color">
+          <div 
+            className="md:hidden border-t border-gray-700"
+            style={{
+              background: 'rgba(0, 0, 0, 0.95)',
+              backdropFilter: 'blur(15px)',
+              transform: 'none'
+            }}
+          >
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
               {navItems.map((item) => (
                 <button
                   key={item.id}
                   onClick={() => scrollToSection(item.id)}
-                  className={`block w-full text-left px-3 py-3 rounded-md text-base font-medium transition-all duration-300 touch-manipulation hover:translate-x-2 ${
+                  className={`block w-full text-left px-3 py-3 rounded-md text-base font-medium transition-all duration-300 ${
                     activeSection === item.id
-                      ? 'text-primary bg-primary/10'
-                      : 'text-text-secondary hover:text-text-primary hover:bg-bg-secondary/50'
+                      ? 'text-cyan-400 bg-cyan-400/10'
+                      : 'text-gray-300 hover:text-white hover:bg-gray-800/50'
                   }`}
+                  style={{ transform: 'none' }}
                 >
                   {item.label}
                 </button>
@@ -198,7 +229,8 @@ const Navbar: React.FC = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="flex items-center space-x-2 w-full px-3 py-3 mt-4 bg-primary hover:bg-primary/90 text-white rounded-lg font-medium transition-all duration-300 touch-manipulation hover:translate-x-2"
+                className="flex items-center space-x-2 w-full px-3 py-3 mt-4 bg-gradient-to-r from-cyan-500 to-purple-600 text-white rounded-lg font-medium transition-all duration-300"
+                style={{ transform: 'none' }}
               >
                 <Download size={16} />
                 <span>Download Resume</span>
