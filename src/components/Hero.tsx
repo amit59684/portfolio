@@ -222,7 +222,7 @@ const Hero: React.FC = () => {
               className="grid grid-cols-3 gap-4 max-w-md mx-auto lg:mx-0"
             >
               {[
-                { label: 'PROJECTS', value: '50+', icon: Code },
+                { label: 'PROJECTS', value: '55+', icon: Code },
                 { label: 'EXPERIENCE', value: '4+', icon: Zap },
                 { label: 'SKILLS', value: '15+', icon: Gamepad2 }
               ].map((stat, index) => (
