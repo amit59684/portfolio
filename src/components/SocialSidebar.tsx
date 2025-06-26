@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import ReactDOM from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 
@@ -85,6 +86,12 @@ const SocialLink: React.FC<SocialLinkProps> = ({ href, iconSrc, label, color, bg
 
 const SocialSidebar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    return () => setMounted(false);
+  }, []);
 
   const socialLinks = [
     {
@@ -149,8 +156,16 @@ const SocialSidebar: React.FC = () => {
     setIsOpen(!isOpen);
   };
 
-  return (
-    <div className="fixed left-0 top-1/2 transform -translate-y-1/2 z-50">
+  const sidebarContent = (
+    <div 
+      className="fixed left-0 top-1/2 transform -translate-y-1/2" 
+      style={{ 
+        zIndex: 2147483640,
+        pointerEvents: 'auto',
+        visibility: 'visible',
+        opacity: 1,
+      }}
+    >
       {/* Main container */}
       <div className="flex items-center">
         
@@ -187,7 +202,7 @@ const SocialSidebar: React.FC = () => {
           className={`w-14 h-14 rounded-r-full flex items-center justify-center shadow-lg transition-all duration-300 relative overflow-hidden ${
             isOpen 
               ? 'bg-gradient-to-r from-red-500 to-red-600' 
-              : 'bg-gradient-to-r from-primary to-primary/80'
+              : 'bg-gradient-to-r from-cyan-500 to-purple-600'
           }`}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
@@ -219,7 +234,7 @@ const SocialSidebar: React.FC = () => {
           
           {/* Pulse effect */}
           <motion.div
-            className="absolute inset-0 bg-primary/30"
+            className="absolute inset-0 bg-cyan-500/30"
             style={{
               borderTopLeftRadius: '0',
               borderBottomLeftRadius: '0',
@@ -258,6 +273,14 @@ const SocialSidebar: React.FC = () => {
         )}
       </AnimatePresence>
     </div>
+  );
+
+  // Use portal to render sidebar directly to body
+  if (!mounted) return null;
+  
+  return ReactDOM.createPortal(
+    sidebarContent,
+    document.body
   );
 };
 
