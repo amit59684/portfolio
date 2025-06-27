@@ -109,7 +109,7 @@ const SocialSidebar: React.FC = () => {
       bgColor: 'bg-gradient-to-r from-blue-600 to-blue-500'
     },
     {
-      href: 'https://wa.me/8101029684',
+      href: 'https://wa.me/+918101029684',
       iconSrc: '/assets/images/Contacts/whatsapp.png',
       label: 'WhatsApp',
       color: 'bg-green-500',
